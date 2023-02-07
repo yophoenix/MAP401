@@ -11,6 +11,9 @@ int main(int argc, char** argv){
 	Point pixel_init = trouve_pixel_init(I);
 	printf("Recuperation du contour de l'image test :\n");
 	Contour c=recupere_contour(I,pixel_init);
+	printf("nom du fichier: %s\n", argv[1]);
+	printf("hauteur image: %u\n", hauteur_image(I));
+	printf("largeur image: %u\n", largeur_image(I));
 	printf("Nombre de segments composant le contour :\n");
 	calcul_contour(c);
 	printf("Ecriture du contour dans le fichier texte : %s\n",argv[2]);
