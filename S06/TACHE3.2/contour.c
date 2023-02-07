@@ -4,6 +4,34 @@
 
 #include "contour.h"
 
+Point trouve_pixel_init(Image I)
+{
+	UINT h = 1;
+	UINT l = 1;
+	UINT L = largeur_image(I);
+	UINT H = hauteur_image(I);
+	Point pixel_init = {0, 0};
+	while ((h <= H) && (pixel_init.x == 0))
+	{
+		while ((l <= L) && (pixel_init.x == 0))
+		{
+			if (get_pixel_image(I, l, h))
+			{
+				pixel_init.x = l;
+				pixel_init.y = h;
+			}
+			l++;
+		}
+		l = 1;
+		h++;
+	}
+	if (pixel_init.x == 0)
+	{
+		printf("Pas de pixel initial de contour trouvé\n");
+	}
+	return pixel_init;
+}
+
 Contour recupere_contour(Image I, Point pixel_init){
 	Liste_Point liste = creer_liste_Point_vide();
 	Point pos_init=set_point(pixel_init.x - 1, pixel_init.y - 1);

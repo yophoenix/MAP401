@@ -3,15 +3,12 @@
 #include "image.h"
 
 int main(int argc, char** argv){
-	if (argc < 5){
-		printf("ERREUR. Usage : <nom fichier image> <nom fichier contour> <Pixel en x> <Pixel en y>\n");
+	if (argc < 3){
+		printf("ERREUR. Usage : <nom fichier image> <nom fichier contour>\n");
 		return 1;
 	}
 	Image I = lire_fichier_image(argv[1]);
-	double x,y;
-	sscanf(argv[3],"%lf",&x);
-	sscanf(argv[4],"%lf",&y);
-	Point pixel_init = set_point(x,y);
+	Point pixel_init = trouve_pixel_init(I);
 	printf("Recuperation du contour de l'image test :\n");
 	Contour c=recupere_contour(I,pixel_init);
 	printf("Nombre de segments composant le contour :\n");

@@ -14,7 +14,7 @@ Contour recupere_contour(Image I, Point pixel_init);
 
 void calcul_contour(Contour liste);
 
-//Point trouver_pixel_depart(Image I);
+Point trouve_pixel_init(Image I);
 
 void memoriser_position(Liste_Point *liste, Point p);
 
