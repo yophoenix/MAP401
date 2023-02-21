@@ -30,4 +30,8 @@ void ecrire_contour_fichier(Contour L,char *nom_fichier);
 
 void ecrire_contour_eps(Contour L, char *nom_fichier, Image I, int fill);
 
+char *modifier_extension(char *nom,char *extension);
+
+char *stroke_ou_fill(char* nom,int fill);
+
 #endif

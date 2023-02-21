@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
+#include <string.h>
 
 #include "contour.h"
 
@@ -135,10 +136,10 @@ void ecrire_contour_eps(Contour L,char* nom_fichier, Image I,int fill)
 
 	Cellule_Liste_Point* cel = L.first;
 	if (cel!=NULL){
-		fprintf(f,"%lf %lf moveto ",cel->data.x,cel->data.y);
+		fprintf(f,"%.0f %.0f moveto ",cel->data.x,cel->data.y);
 		cel=cel->suiv;
 		while (cel!=NULL){
-			fprintf(f,"%lf %lf lineto \n",cel->data.x,cel->data.y);
+			fprintf(f,"%.0f %.0f lineto \n",cel->data.x,cel->data.y);
 			cel=cel->suiv;
 		}
 	}
@@ -150,4 +151,36 @@ void ecrire_contour_eps(Contour L,char* nom_fichier, Image I,int fill)
 	}
 	fprintf(f,"\n showpage");
 	fclose(f);
+}
+
+char *modifier_extension(char* nom,char *extension){
+	char *nom_fichier = nom;
+	int x=0;
+	while (nom_fichier[x]!='.'){
+		x++;
+	}
+	x++;
+	nom_fichier[x]=extension[0];
+	x++;
+	nom_fichier[x]=extension[1];
+	x++;
+	nom_fichier[x]=extension[2];
+	return nom_fichier;
+}
+
+char *stroke_ou_fill(char* nom,int fill){
+	int x=0;
+	while (nom[x]!='.'){
+		x++;
+	}
+	char* nom_fichier = calloc(x + 15, sizeof(char));
+	for(int i=0;i<x;i++){
+		nom_fichier[i]=nom[i];
+	}
+	if (fill){
+		nom_fichier=strcat(nom_fichier,"-fill.");
+	}else{
+		nom_fichier=strcat(nom_fichier,"-stroke.");
+	}
+	return nom_fichier;
 }
