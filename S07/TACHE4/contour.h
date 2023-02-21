@@ -26,4 +26,6 @@ Orientation tourner_a_gauche(Orientation orient);
 
 Orientation tourner_a_droite(Orientation orient);
 
+void ecrire_contour_fichier(Liste_Point L,char *nom_fichier);
+
 #endif

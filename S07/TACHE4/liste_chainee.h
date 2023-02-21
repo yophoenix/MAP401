@@ -52,6 +52,4 @@ Tableau_Point sequence_points_liste_vers_tableau(Liste_Point L);
 /* cree le point de coordonnees ( x , y ) */
 Point set_point ( double x , double y ) ;
 
-void ecrire_contour_fichier(Liste_Point L,char *nom_fichier);
-
 #endif

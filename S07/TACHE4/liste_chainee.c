@@ -112,22 +112,3 @@ Tableau_Point sequence_points_liste_vers_tableau(Liste_Point L)
 	
 	return T;
 }
-
-/* écrire le contour L dans un fichier */ 
-void ecrire_contour_fichier(Liste_Point L,char* nom_fichier)
-{
-	FILE *f=fopen(nom_fichier,"w");
-	Tableau_Point TP = sequence_points_liste_vers_tableau(L);
-	int k;
-	int nP = TP.taille;
-	
-	fprintf(f,"1\n\n%d\n",nP);
-	for (k = 0; k < nP; k++)
-	{	
-		Point P = TP.tab[k]; /* récupérer le point d'indice k */
-		fprintf(f," %5.1f %5.1f\n", P.x, P.y);
-	} 
-	
-	free(TP.tab); /* supprimer le tableau de point TP */
-	fclose(f);
-}

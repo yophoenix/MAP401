@@ -105,3 +105,43 @@ Orientation nouvelle_orientation(Image I,Point position, Orientation orient){
 	}
 	return orient;
 }
+
+/* écrire le contour L dans un fichier */ 
+void ecrire_contour_fichier(Contour L,char* nom_fichier)
+{
+	FILE *f=fopen(nom_fichier,"w");
+	Tableau_Point TP = sequence_points_liste_vers_tableau(L);
+	int k;
+	int nP = TP.taille;
+	
+	fprintf(f,"1\n\n%d\n",nP);
+	for (k = 0; k < nP; k++)
+	{	
+		Point P = TP.tab[k]; /* récupérer le point d'indice k */
+		fprintf(f," %5.1f %5.1f\n", P.x, P.y);
+	} 
+	
+	free(TP.tab); /* supprimer le tableau de point TP */
+	fclose(f);
+}
+
+void ecrire_contour_eps(Contour L,char* nom_fichier, Image I)
+{
+	FILE *f=fopen(nom_fichier,"w");
+
+	UINT l=largeur_image(I);
+	UINT h=hauteur_image(I);
+	fprintf(f,"%%!PS-Adobe-3.0 EPSF-3.0\n%%%%BoundingBox: 1 1 %d %d\n\n",l,h);
+
+	Cellule_Liste_Point* cel = L.first;
+	if (cel!=NULL){
+		fprintf(f,"%lf %lf moveto ",cel->data.x,cel->data.y);
+		cel=cel->suiv;
+		while (cel!=NULL){
+			fprintf(f,"%lf %lf lineto ",cel->data.x,cel->data.y);
+			cel=cel->suiv;
+		}
+	}
+	fprintf(f,"\nstroke\n\nshowpage");
+	fclose(f);
+}
