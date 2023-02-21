@@ -26,6 +26,8 @@ Orientation tourner_a_gauche(Orientation orient);
 
 Orientation tourner_a_droite(Orientation orient);
 
-void ecrire_contour_fichier(Liste_Point L,char *nom_fichier);
+void ecrire_contour_fichier(Contour L,char *nom_fichier);
+
+void ecrire_contour_eps(Contour L, char *nom_fichier, Image I, int fill);
 
 #endif
