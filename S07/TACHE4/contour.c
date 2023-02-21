@@ -125,7 +125,7 @@ void ecrire_contour_fichier(Contour L,char* nom_fichier)
 	fclose(f);
 }
 
-void ecrire_contour_eps(Contour L,char* nom_fichier, Image I)
+void ecrire_contour_eps(Contour L,char* nom_fichier, Image I,int fill)
 {
 	FILE *f=fopen(nom_fichier,"w");
 
@@ -142,7 +142,12 @@ void ecrire_contour_eps(Contour L,char* nom_fichier, Image I)
 			cel=cel->suiv;
 		}
 	}
-	fprintf(f, "stroke\n");
+	if(!fill){
+		fprintf(f, "stroke\n");
+	}
+	else{
+		fprintf(f, "fill\n");
+	}
 	fprintf(f,"\n showpage");
 	fclose(f);
 }
