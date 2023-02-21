@@ -138,10 +138,11 @@ void ecrire_contour_eps(Contour L,char* nom_fichier, Image I)
 		fprintf(f,"%lf %lf moveto ",cel->data.x,cel->data.y);
 		cel=cel->suiv;
 		while (cel!=NULL){
-			fprintf(f,"%lf %lf lineto ",cel->data.x,cel->data.y);
+			fprintf(f,"%lf %lf lineto \n",cel->data.x,cel->data.y);
 			cel=cel->suiv;
 		}
 	}
-	fprintf(f,"\nstroke\n\nshowpage");
+	fprintf(f, "stroke\n");
+	fprintf(f,"\n showpage");
 	fclose(f);
 }
