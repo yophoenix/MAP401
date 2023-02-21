@@ -1,6 +1,5 @@
 #include <stdio.h>
 #include "contour.h"
-#include "image.h"
 
 int main(int argc, char** argv){
 	if (argc < 3){
