@@ -26,11 +26,31 @@ Cellule_Liste_Point *creer_element_liste_Point(Point v)
 	return el;
 }
 
+Cellule_Liste_Contour *creer_element_liste_Contour(Contour c)
+{
+	Cellule_Liste_Contour *co;
+	co = (Cellule_Liste_Contour *)malloc(sizeof(Cellule_Liste_Contour));
+	if (co==NULL)
+	{
+		fprintf(stderr, "creer_element_liste_Contour : allocation impossible\n");
+		exit(-1);
+	}
+	co->data = c;
+	co->suiv = NULL;
+	return co;
+}
+
 /* créer une liste vide */
 Liste_Point creer_liste_Point_vide()
 {
 	Liste_Point L = {0, NULL, NULL};
 	return L;
+}
+
+Liste_Contour creer_liste_Contour_vide()
+{
+	Liste_Contour C = {0, NULL, NULL};
+	return C;
 }
 
 /* ajouter l'élément e en fin de la liste L, renvoie la liste L modifiée */
@@ -52,6 +72,24 @@ void ajouter_element_liste_Point(Liste_Point *L, Point e)
 	L->taille++;
 }
 
+void ajouter_element_liste_Contour(Liste_Contour *C, Contour e)
+{
+	Cellule_Liste_Contour *co;
+	
+	co = creer_element_liste_Contour(e);
+	if (C->taille == 0)
+	{
+		/* premier élément de la liste */
+		C->first = C->last = co;
+	}
+	else
+	{
+		C->last->suiv = co;
+		C->last = co;
+	}
+	C->taille++;
+}
+
 /* suppression de tous les éléments de la liste, renvoie la liste L vide */
 Liste_Point supprimer_liste_Point(Liste_Point L)
 {
@@ -67,6 +105,20 @@ Liste_Point supprimer_liste_Point(Liste_Point L)
 	return L;
 }
 
+Liste_Contour supprimer_liste_Contour(Liste_Contour C)
+{
+	Cellule_Liste_Contour *co=C.first;
+	
+	while (co) 
+	{		
+		Cellule_Liste_Contour *suiv=co->suiv;
+		free(co);
+		co = suiv;
+	}
+	C.first = C.last = NULL; C.taille = 0;
+	return C;
+}
+
 /* concatène L2 à la suite de L1, renvoie la liste L1 modifiée */
 Liste_Point concatener_liste_Point(Liste_Point L1, Liste_Point L2)
 {
@@ -79,6 +131,19 @@ Liste_Point concatener_liste_Point(Liste_Point L1, Liste_Point L2)
 	L1.last = L2.last;        /* le dernier élément de L1 est celui de L2 */
 	L1.taille += L2.taille;   /* nouvelle taille pour L1 */
 	return L1;
+}
+
+Liste_Contour concatener_liste_Contour(Liste_Contour C1, Liste_Contour C2)
+{
+	/* cas où l'une des deux listes est vide */
+	if (C1.taille == 0) return C2; 
+	if (C2.taille == 0) return C1;
+	
+	/* les deux listes sont non vides */
+	C1.last->suiv = C2.first; /* lien entre C1.last et C2.first */
+	C1.last = C2.last;        /* le dernier élément de C1 est celui de C2 */
+	C1.taille += C2.taille;   /* nouvelle taille pour C1 */
+	return C1;
 }
 
 /* créer une séquence de points sous forme d'un tableau de points 
