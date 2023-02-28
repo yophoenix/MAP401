@@ -33,7 +33,7 @@ typedef struct Cellule_liste_contour_{
 
 typedef struct Liste_contour_{
 	UINT taille;
-	Cellule_liste_contour_ * first;
+	Cellule_Liste_contour * first;
 } Liste_contour;
 
 /*---- le type tableau de point ----*/
