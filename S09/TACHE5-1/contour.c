@@ -210,5 +210,6 @@ Image init_masque(Image I){
 
 Liste_contour extraire_contour(Image I){
 	Liste_contour liste = creer_liste_Contour_vide();
+	Image M = init_masque(I);
 	
 }
