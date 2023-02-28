@@ -56,6 +56,11 @@ void calcul_contour(Contour liste){
 	printf("Ce contour contient %d segments.\n",liste.taille-1);
 }
 
+void affiche_liste_contour(Liste_Contour liste){
+	printf("Il y'a %d contours", liste.taille);
+	
+}
+
 void memoriser_position(Liste_Point *liste, Point p){
 	ajouter_element_liste_Point(liste,p);
 }
@@ -109,9 +114,8 @@ Orientation nouvelle_orientation(Image I,Point position, Orientation orient){
 }
 
 /* écrire le contour L dans un fichier */ 
-void ecrire_contour_fichier(Contour L,char* nom_fichier)
+void ecrire_contour_fichier(Contour L,FILE * f)
 {
-	FILE *f=fopen(nom_fichier,"w");
 	Tableau_Point TP = sequence_points_liste_vers_tableau(L);
 	int k;
 	int nP = TP.taille;
@@ -124,7 +128,17 @@ void ecrire_contour_fichier(Contour L,char* nom_fichier)
 	} 
 	
 	free(TP.tab); /* supprimer le tableau de point TP */
-	fclose(f);
+}
+
+void ecrire_liste_contours(Liste_Contour L, char *nom_fichier){
+	FILE *f = fopen(nom_fichier, "w");
+	Contour liste = L.first->data;	
+	UINT t = L.taille;
+	fprintf(f, "%d", t);
+	while (liste!=NULL){
+		ecrire_contour_fichier(liste, f);
+		liste = liste->suiv;
+	}
 }
 
 void ecrire_contour_eps(Contour L,char* nom_fichier, Image I,int fill)

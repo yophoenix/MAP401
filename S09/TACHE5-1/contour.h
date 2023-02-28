@@ -10,7 +10,7 @@ typedef enum {Nord, Est, Sud, Ouest} Orientation;
 /* cree le point de coordonnees ( x , y ) */
 Point set_point ( double x , double y ) ;
 
-Contour recupere_contour(Image I, Point pixel_init);
+Contour recupere_contour(Image I, Image M, Point pixel_init);
 
 void calcul_contour(Contour liste);
 
@@ -26,7 +26,9 @@ Orientation tourner_a_gauche(Orientation orient);
 
 Orientation tourner_a_droite(Orientation orient);
 
-void ecrire_contour_fichier(Contour L,char *nom_fichier);
+void ecrire_contour_fichier(Contour L,FILE * f);
+
+void ecrire_liste_contours(Liste_Contour L, char *nom_fichier);
 
 void ecrire_contour_eps(Contour L, char *nom_fichier, Image I, int fill);
 
