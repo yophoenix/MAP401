@@ -208,8 +208,12 @@ Image init_masque(Image I){
 	return M;
 }
 
-Liste_contour extraire_contour(Image I){
+Liste_contour extraire_contours(Image I){
 	Liste_contour liste = creer_liste_Contour_vide();
 	Image M = init_masque(I);
+	Point pixel_init = trouve_pixel_init(M);
+	while(pixel_init.x==0){
+	
+	}
 	
 }
