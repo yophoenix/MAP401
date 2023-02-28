@@ -184,3 +184,26 @@ char *stroke_ou_fill(char* nom,int fill){
 	}
 	return nom_fichier;
 }
+
+Image init_masque(Image I){
+	UINT L = largeur_image(I);
+	UINT H = hauteur_image(I);
+	Image M=creer_image(L, H);
+	UINT nb_pixel_init = 0;
+	for (UINT h = 1; h <= H;h++)
+		{
+			for(UINT l=1; l<=L;l++)
+			{
+				if (get_pixel_image(I, l, h))
+				{
+				set_pixel_image(M, l, h, NOIR);
+				nb_pixel_init++;
+				}
+			}
+		}
+	if (nb_pixel_init == 0)
+	{
+		printf("Pas de pixel initial de contour trouvé\n");
+	}
+	return M;
+}

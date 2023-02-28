@@ -34,4 +34,12 @@ char *modifier_extension(char *nom,char *extension);
 
 char *stroke_ou_fill(char* nom,int fill);
 
+void init_masque(Image * M);
+
+
+
+
+
+
+
 #endif
