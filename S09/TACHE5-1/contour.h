@@ -36,6 +36,6 @@ char *stroke_ou_fill(char* nom,int fill);
 
 Image init_masque(Image M);
 
-Liste_contour extraire_contours(Image I);
+Liste_Contour extraire_contours(Image I);
 
 #endif
