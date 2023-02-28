@@ -29,12 +29,12 @@ typedef Liste_Point Contour; /* type Contour = type Liste_Point */
 typedef struct Cellule_liste_contour_{
 	Contour data;
 	struct Cellule_liste_contour_ *suiv;
-} Cellule_Liste_contour;
+} Cellule_Liste_Contour;
 
 typedef struct Liste_contour_{
 	UINT taille;
-	Cellule_Liste_contour * first;
-} Liste_contour;
+	Cellule_Liste_Contour * first;
+} Liste_Contour;
 
 /*---- le type tableau de point ----*/
 typedef struct Tableau_Point_
@@ -48,13 +48,23 @@ typedef struct Tableau_Point_
    la fonction s'arrete si la création n'a pas pu se faire */
 Cellule_Liste_Point *creer_element_liste_Point(Point v);
 
+Cellule_Liste_Contour *creer_element_liste_Contour(Contour c);
+
 Liste_Point creer_liste_Point_vide();
+
+Liste_Contour creer_liste_Contour_vide();
 
 void ajouter_element_liste_Point(Liste_Point *L, Point e);
 
+void ajouter_element_liste_Contour(Liste_Contour *L, Contour e);
+
 Liste_Point supprimer_liste_Point(Liste_Point L);
 
+Liste_Contour supprimer_liste_Contour(Liste_Contour L);
+
 Liste_Point concatener_liste_Point(Liste_Point L1, Liste_Point L2);
+
+Liste_Contour concatener_liste_Contour(Liste_Contour L1, Liste_Contour L2);
 
 Tableau_Point sequence_points_liste_vers_tableau(Liste_Point L);
 
