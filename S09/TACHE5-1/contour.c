@@ -57,8 +57,14 @@ void calcul_contour(Contour liste){
 }
 
 void affiche_liste_contour(Liste_Contour liste){
-	printf("Il y'a %d contours", liste.taille);
-	
+	UINT l=0;
+	Cellule_Liste_Contour *cel = liste.first;
+	while (cel!=NULL){
+		l+=cel->data.taille;
+		cel = cel->suiv;
+	}
+	printf("Il y a %d contours\n"
+			"Il y a %d segments\n", liste.taille,l);
 }
 
 void memoriser_position(Liste_Point *liste, Point p){
@@ -132,11 +138,11 @@ void ecrire_contour_fichier(Contour L,FILE * f)
 
 void ecrire_liste_contours(Liste_Contour L, char *nom_fichier){
 	FILE *f = fopen(nom_fichier, "w");
-	Contour liste = L.first->data;	
+	Cellule_Liste_Contour *liste = L.first;
 	UINT t = L.taille;
 	fprintf(f, "%d", t);
 	while (liste!=NULL){
-		ecrire_contour_fichier(liste, f);
+		ecrire_contour_fichier(liste->data, f);
 		liste = liste->suiv;
 	}
 }
