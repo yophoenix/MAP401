@@ -136,10 +136,10 @@ void ecrire_contour_eps(Contour L,char* nom_fichier, Image I,int fill)
 
 	Cellule_Liste_Point* cel = L.first;
 	if (cel!=NULL){
-		fprintf(f,"%.0f %.0f moveto ",cel->data.x,cel->data.y);
+		fprintf(f,"%.0f %.0f moveto ",cel->data.x,I.la_hauteur_de_l_image - cel->data.y);
 		cel=cel->suiv;
 		while (cel!=NULL){
-			fprintf(f,"%.0f %.0f lineto \n",cel->data.x,cel->data.y);
+			fprintf(f,"%.0f %.0f lineto \n",cel->data.x,I.la_hauteur_de_l_image - cel->data.y);
 			cel=cel->suiv;
 		}
 	}
