@@ -4,16 +4,6 @@
 #include "image.h"
 #include "types_macros.h"
 
-typedef struct Cellule_liste_contour_{
-	Contour data;
-	struct Cellule_liste_contour_ *suiv;
-} Cellule_Liste_contour;
-
-typedef struct Liste_contour_{
-	UINT taille;
-	Cellule_liste_contour_ * first;
-} Liste_contour;
-
 typedef struct Point_ {
 	double x , y ; /* coordonnees */
 } Point ;
@@ -35,6 +25,16 @@ typedef struct Liste_Point_
 } Liste_Point;
 
 typedef Liste_Point Contour; /* type Contour = type Liste_Point */
+
+typedef struct Cellule_liste_contour_{
+	Contour data;
+	struct Cellule_liste_contour_ *suiv;
+} Cellule_Liste_contour;
+
+typedef struct Liste_contour_{
+	UINT taille;
+	Cellule_liste_contour_ * first;
+} Liste_contour;
 
 /*---- le type tableau de point ----*/
 typedef struct Tableau_Point_
