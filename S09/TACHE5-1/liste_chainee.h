@@ -43,6 +43,17 @@ typedef struct Tableau_Point_
 	Point *tab;          /* (pointeur vers) le tableau des éléments */
 } Tableau_Point;
 
+typedef struct Cellule_liste_contour_
+{
+	Contour data;
+	struct Cellule_liste_contour_ *suiv;
+} Cellule_Liste_contour;
+
+typedef struct Liste_contour_
+{
+	UINT taille;
+	Cellule_liste_contour_ *first;
+} Liste_contour;
 
 /* créer une cellule de liste avec l'élément v 
    renvoie le pointeur sur la cellule de liste créée

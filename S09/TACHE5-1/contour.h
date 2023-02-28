@@ -35,6 +35,14 @@ char *modifier_extension(char *nom,char *extension);
 char *stroke_ou_fill(char* nom,int fill);
 
 Image init_masque(Image M);
+<<<<<<< Updated upstream
+=======
+
+
+
+
+
+>>>>>>> Stashed changes
 
 Liste_contour extraire_contour(Image I);
 
