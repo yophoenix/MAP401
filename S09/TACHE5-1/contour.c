@@ -28,18 +28,19 @@ Point trouve_pixel_init(Image I)
 	}
 	if (pixel_init.x == 0)
 	{
-		printf("Pas de pixel initial de contour trouvé\n");
+		printf("Plus de pixel initial trouvé");
 	}
 	return pixel_init;
 }
 
-Contour recupere_contour(Image I, Point pixel_init){
+Contour recupere_contour(Image I, Image * M, Point pixel_init){
 	Liste_Point liste = creer_liste_Point_vide();
 	Point pos_init=set_point(pixel_init.x - 1, pixel_init.y - 1);
 	Point position=set_point(pos_init.x,pos_init.y);
 	Orientation orient=Est;
 	bool boucle=true;
 	while (boucle){
+		set_pixel_image(*M, position.x, position.y, BLANC);
 		memoriser_position(&liste,position);
 		position = avancer(position,orient);
 		orient = nouvelle_orientation(I,position,orient);
@@ -208,14 +209,14 @@ Image init_masque(Image I){
 	return M;
 }
 
-Liste_Contour extraire_contours(Image I){
-	Liste_Contour list = creer_liste_Contour_vide();
+Liste_Contour extraire_les_contours(Image I){
+	Liste_Contour liste = creer_liste_Contour_vide();
 	Image M = init_masque(I);
 	Point pixel_init = trouve_pixel_init(M);
-	while(pixel_init.x==0){
-		Contour c = recupere_contour(I, pixel_init);
-		ajouter_element_liste_contour(c);
+	while(pixel_init.x!=0){
+		Contour c = recupere_contour(I, &M, pixel_init);
+		ajouter_element_liste_Contour(&liste,c);
 		pixel_init = trouve_pixel_init(M);
 	}
-	return list;
+	return liste;
 }
