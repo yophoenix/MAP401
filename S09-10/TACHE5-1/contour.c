@@ -28,7 +28,7 @@ Point trouve_pixel_init(Image I)
 	}
 	if (pixel_init.x == 0)
 	{
-		printf("Plus de pixel initial trouvé");
+		printf("Plus de pixel initial trouvé\n");
 	}
 	return pixel_init;
 }
@@ -66,7 +66,7 @@ void affiche_liste_contour(Liste_Contour liste){
 		cel = cel->suiv;
 	}
 	printf("Il y a %d contours\n"
-			"Il y a %d point\n"
+			"Il y a %d points\n"
 			"Il y a %d segments\n", liste.taille,l,l-liste.taille);
 }
 
