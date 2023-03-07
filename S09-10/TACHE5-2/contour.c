@@ -179,6 +179,41 @@ void ecrire_contour_eps(Contour L,char* nom_fichier, Image I,int fill)
 	fclose(f);
 }
 
+void ecrire_image_eps(Liste_Contour L, char* nom_fichier, Image I, int fill)
+{
+	FILE *f= fopen(nom_fichier,"w");
+
+	UINT l = largeur_image(I);
+	UINT h = hauteur_image(I);
+	fprintf(f,"%%!PS-Adobe-3.0 EPSF-3.0\n%%%%BoundingBox: 1 1 %d %d\n\n",l,h);
+
+	Cellule_Liste_Point *cel=malloc(sizeof(Cellule_Liste_Point));
+	Contour cont;
+	Cellule_Liste_Contour *C = L.first;
+	while (C!=NULL){
+		cont = C->data;
+		cel = cont.first;
+		if (cel!=NULL){
+			fprintf(f,"%.0f %.0f moveto ",cel->data.x,I.la_hauteur_de_l_image - cel->data.y);
+			cel=cel->suiv;
+			while (cel!=NULL){
+				fprintf(f,"%.0f %.0f lineto \n",cel->data.x,I.la_hauteur_de_l_image - cel->data.y);
+				cel=cel->suiv;
+			}
+		}
+		C=C->suiv;
+	}
+	if(!fill){
+		fprintf(f, "stroke\n");
+	}
+	else{
+		fprintf(f, "fill\n");
+	}
+	fprintf(f,"\n showpage");
+	fclose(f);
+	free(cel);
+}
+
 char *modifier_extension(char* nom,char *extension){
 	char *nom_fichier = nom;
 	int x=0;
