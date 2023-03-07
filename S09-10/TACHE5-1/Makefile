@@ -37,7 +37,7 @@ INCLUDEOPTS = -I$(INCDIR)
 COMPILOPTS = -g -Wall $(INCLUDEOPTS)
 
 # liste des executables
-EXECUTABLES = test_contour test
+EXECUTABLES = test_contour
 
 
 #############################################################################
@@ -91,12 +91,6 @@ test_contour.o : test_contour.c image.h contour.h liste_chainee.h types_macros.h
 	@echo "---------------------------------------------"
 	$(CC) -c $(COMPILOPTS) $<
 
-test.o : test.c image.h contour.h liste_chainee.h types_macros.h
-	@echo ""
-	@echo "---------------------------------------------"
-	@echo "Compilation du module test"
-	@echo "---------------------------------------------"
-	$(CC) -c $(COMPILOPTS) $<
 
 ########################################################
 # regles explicites de creation des executables
@@ -108,12 +102,6 @@ test_contour : test_contour.o liste_chainee.o contour.o image.o
 	@echo "---------------------------------------------"
 	$(CC) $^ $(LDOPTS) -o $@
 
-test : test.o liste_chainee.o contour.o image.o
-	@echo ""
-	@echo "---------------------------------------------"
-	@echo "Creation de l'executable "$@
-	@echo "---------------------------------------------"
-	$(CC) $^ $(LDOPTS) -o $@
 
 # regle pour "nettoyer" le r�pertoire
 clean:
