@@ -37,17 +37,19 @@ Contour recupere_contour(Image I, Image M, Point pixel_init){
 	Liste_Point liste = creer_liste_Point_vide();
 	Point pos_init=set_point(pixel_init.x - 1, pixel_init.y - 1);
 	Point position=set_point(pos_init.x,pos_init.y);
+	set_pixel_image(M, position.x, position.y, BLANC);
 	Orientation orient=Est;
 	bool boucle=true;
 	while (boucle){
-		set_pixel_image(M, position.x, position.y, BLANC);
 		memoriser_position(&liste,position);
 		position = avancer(position,orient);
+		set_pixel_image(M, position.x, position.y, BLANC);
 		orient = nouvelle_orientation(I,position,orient);
 		if (position.x == pos_init.x && position.y == pos_init.y && orient==Est){
 			boucle=false;
 		}
 	}
+	set_pixel_image(M, position.x, position.y, BLANC);
 	memoriser_position(&liste,position);
 	return liste;
 }
