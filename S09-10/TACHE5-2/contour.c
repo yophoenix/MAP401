@@ -187,8 +187,8 @@ void ecrire_image_eps(Liste_Contour L, char* nom_fichier, Image I, int fill)
 	UINT h = hauteur_image(I);
 	fprintf(f,"%%!PS-Adobe-3.0 EPSF-3.0\n%%%%BoundingBox: 1 1 %d %d\n\n",l,h);
 
-	Cellule_Liste_Point *cel;
 	Cellule_Liste_Contour *C = L.first;
+	Cellule_Liste_Point *cel = NULL;
 	while (C!=NULL){
 		cel = C->data.first;
 		if (cel!=NULL){
