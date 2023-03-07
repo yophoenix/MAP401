@@ -7,10 +7,7 @@
 
 typedef enum {Nord, Est, Sud, Ouest} Orientation;
 
-/* cree le point de coordonnees ( x , y ) */
-Point set_point ( double x , double y ) ;
-
-Contour recupere_contour(Image I, Image M, Point pixel_init);
+Contour recupere_contour(Image I, Image *M, Point pixel_init);
 
 void calcul_contour(Contour liste);
 

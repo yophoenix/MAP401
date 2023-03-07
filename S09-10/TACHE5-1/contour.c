@@ -33,23 +33,23 @@ Point trouve_pixel_init(Image I)
 	return pixel_init;
 }
 
-Contour recupere_contour(Image I, Image M, Point pixel_init){
+Contour recupere_contour(Image I, Image *M, Point pixel_init){
 	Liste_Point liste = creer_liste_Point_vide();
 	Point pos_init=set_point(pixel_init.x - 1, pixel_init.y - 1);
 	Point position=set_point(pos_init.x,pos_init.y);
-	set_pixel_image(M, position.x, position.y, BLANC);
+	set_pixel_image(*M, position.x, position.y, BLANC);
 	Orientation orient=Est;
 	bool boucle=true;
 	while (boucle){
 		memoriser_position(&liste,position);
 		position = avancer(position,orient);
-		set_pixel_image(M, position.x, position.y, BLANC);
+		set_pixel_image(*M, position.x, position.y, BLANC);
 		orient = nouvelle_orientation(I,position,orient);
 		if (position.x == pos_init.x && position.y == pos_init.y && orient==Est){
 			boucle=false;
 		}
 	}
-	set_pixel_image(M, position.x, position.y, BLANC);
+	set_pixel_image(*M, position.x, position.y, BLANC);
 	memoriser_position(&liste,position);
 	return liste;
 }
@@ -235,7 +235,7 @@ Liste_Contour extraire_les_contours(Image I){
 	Image M = init_masque(I);
 	Point pixel_init = trouve_pixel_init(M);
 	while(pixel_init.x!=0){
-		Contour c = recupere_contour(I, M, pixel_init);
+		Contour c = recupere_contour(I, &M, pixel_init);
 		ajouter_element_liste_Contour(&liste,c);
 		pixel_init = trouve_pixel_init(M);
 	}
