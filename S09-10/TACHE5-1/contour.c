@@ -129,7 +129,7 @@ void ecrire_contour_fichier(Contour L,FILE * f)
 	int k;
 	int nP = TP.taille;
 	
-	fprintf(f,"1\n\n%d\n",nP);
+	fprintf(f,"\n%d\n",nP);
 	for (k = 0; k < nP; k++)
 	{	
 		Point P = TP.tab[k]; /* récupérer le point d'indice k */
@@ -143,7 +143,7 @@ void ecrire_liste_contours(Liste_Contour L, char *nom_fichier){
 	FILE *f = fopen(nom_fichier, "w");
 	Cellule_Liste_Contour *liste = L.first;
 	UINT t = L.taille;
-	fprintf(f, "%d", t);
+	fprintf(f, "%d\n", t);
 	while (liste!=NULL){
 		ecrire_contour_fichier(liste->data, f);
 		liste = liste->suiv;
