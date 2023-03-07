@@ -16,7 +16,7 @@ Point trouve_pixel_init(Image I)
 	{
 		while ((l <= L) && (pixel_init.x == 0))
 		{
-			if (get_pixel_image(I, l, h))
+			if (get_pixel_image(I, l, h) && !get_pixel_image(I, l, h - 1))
 			{
 				pixel_init.x = l;
 				pixel_init.y = h;
@@ -211,13 +211,12 @@ char *stroke_ou_fill(char* nom,int fill){
 Image init_masque(Image I){
 	UINT L = largeur_image(I);
 	UINT H = hauteur_image(I);
-	Image M=creer_image(L, H);
+	Image M = creer_image(L, H);
 	UINT nb_pixel_init = 0;
-	for (UINT h = 1; h <= H;h++)
-		{
-			for(UINT l=1; l<=L;l++)
+	for (UINT h = 1; h <= H; h++){
+			for(UINT l=1; l<=L; l++)
 			{
-				if (get_pixel_image(I, l, h))
+				if (get_pixel_image(I,l,h)&&!get_pixel_image(I, l, h-1))
 				{
 				set_pixel_image(M, l, h, NOIR);
 				nb_pixel_init++;

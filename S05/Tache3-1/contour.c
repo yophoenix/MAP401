@@ -17,7 +17,8 @@ Point trouve_pixel_init(Image I){
     Point pixel_init = {0, 0};
     while ((h <= H) && (pixel_init.x == 0)){
         while((l<=L) && (pixel_init.x==0)){
-            if (get_pixel_image(I, l, h)){
+            if (get_pixel_image(I, l, h) && !get_pixel_image(I, l, h - 1))
+            {
                 pixel_init.x = l;
                 pixel_init.y = h;
             }

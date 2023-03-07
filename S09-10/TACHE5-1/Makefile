@@ -5,7 +5,7 @@
 # utilisation des variables internes $@ $< $^ $*
 # $@ : correspond au nom de la cible
 # $< : correspond au nom de la premiere dependance
-# $^ : correspond à toutes les dépendances
+# $^ : correspond ï¿½ toutes les dï¿½pendances
 # $* : correspond au nom du fichier sans extension 
 #       (dans les regles generiques uniquement)
 #############################################################################
@@ -27,7 +27,7 @@ INCDIR = .
 # chemin d'acces aux librairies (binaires)
 LIBDIR = .
 
-# options pour l'édition des liens
+# options pour l'ï¿½dition des liens
 LDOPTS = -L$(LIBDIR) -lm
 
 # options pour la recherche des fichiers .o et .h
@@ -37,7 +37,7 @@ INCLUDEOPTS = -I$(INCDIR)
 COMPILOPTS = -g -Wall $(INCLUDEOPTS)
 
 # liste des executables
-EXECUTABLES = test_contour
+EXECUTABLES = test_contour test
 
 
 #############################################################################
@@ -45,7 +45,7 @@ EXECUTABLES = test_contour
 #############################################################################
 
 ########################################################
-# la règle par défaut
+# la rï¿½gle par dï¿½faut
 all : $(EXECUTABLES)
 
 ########################################################
@@ -80,27 +80,41 @@ contour.o : contour.c contour.h image.h types_macros.h
 liste_chainee.o : liste_chainee.c liste_chainee.h image.h types_macros.h
 	@echo ""
 	@echo "---------------------------------------------"
-	@echo "Compilation du module contour"
+	@echo "Compilation du module liste_chainee"
 	@echo "---------------------------------------------"
 	$(CC) -c $(COMPILOPTS) $<
 
-test_contour.o : test_contour.c image.h contour.h
+test_contour.o : test_contour.c image.h contour.h liste_chainee.h types_macros.h
 	@echo ""
 	@echo "---------------------------------------------"
-	@echo "Compilation du module contour"
+	@echo "Compilation du module test_contour"
+	@echo "---------------------------------------------"
+	$(CC) -c $(COMPILOPTS) $<
+
+test.o : test.c image.h contour.h liste_chainee.h types_macros.h
+	@echo ""
+	@echo "---------------------------------------------"
+	@echo "Compilation du module test"
 	@echo "---------------------------------------------"
 	$(CC) -c $(COMPILOPTS) $<
 
 ########################################################
 # regles explicites de creation des executables
 
-test_contour : test_contour.o liste_chainee.o contour.o image.o
+test_contour : test_contour.o liste_chainee.o contour.o image.o 
 	@echo ""
 	@echo "---------------------------------------------"
 	@echo "Creation de l'executable "$@
 	@echo "---------------------------------------------"
 	$(CC) $^ $(LDOPTS) -o $@
 
-# regle pour "nettoyer" le répertoire
+test : test.o liste_chainee.o contour.o image.o
+	@echo ""
+	@echo "---------------------------------------------"
+	@echo "Creation de l'executable "$@
+	@echo "---------------------------------------------"
+	$(CC) $^ $(LDOPTS) -o $@
+
+# regle pour "nettoyer" le rï¿½pertoire
 clean:
 	rm -fR $(EXECUTABLES) *.o 
