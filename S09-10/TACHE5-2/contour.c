@@ -179,13 +179,13 @@ void ecrire_contour_eps(Contour L,char* nom_fichier, Image I,int fill)
 	fclose(f);
 }
 
-void ecrire_image_eps(Liste_Contour L, char* nom_fichier, Image I, int fill)
+void ecrire_image_eps(Liste_Contour L, char* nom_fichier, Image I)
 {
 	FILE *f= fopen(nom_fichier,"w");
 
 	UINT l = largeur_image(I);
 	UINT h = hauteur_image(I);
-	fprintf(f,"%%!PS-Adobe-3.0 EPSF-3.0\n%%%%BoundingBox: 1 1 %d %d\n\n",l,h);
+	fprintf(f,"%%!PS-Adobe-3.0 EPSF-3.0\n%%%%BoundingBox: 0 0 %d %d\n\n",l,h);
 
 	Cellule_Liste_Contour *C = L.first;
 	Cellule_Liste_Point *cel = NULL;
@@ -201,13 +201,7 @@ void ecrire_image_eps(Liste_Contour L, char* nom_fichier, Image I, int fill)
 		}
 		C=C->suiv;
 	}
-	if(!fill){
-		fprintf(f, "stroke\n");
-	}
-	else{
-		fprintf(f, "fill\n");
-	}
-	fprintf(f,"\n showpage");
+	fprintf(f,"\nfill\nshowpage");
 	fclose(f);
 }
 
@@ -226,7 +220,7 @@ char *modifier_extension(char* nom,char *extension){
 	return nom_fichier;
 }
 
-char *stroke_ou_fill(char* nom,int fill){
+/*char *stroke_ou_fill(char* nom,int fill){
 	int x=0;
 	while (nom[x]!='.'){
 		x++;
@@ -241,7 +235,7 @@ char *stroke_ou_fill(char* nom,int fill){
 		nom_fichier=strcat(nom_fichier,"-stroke.");
 	}
 	return nom_fichier;
-}
+}*/
 
 Image init_masque(Image I){
 	UINT L = largeur_image(I);
