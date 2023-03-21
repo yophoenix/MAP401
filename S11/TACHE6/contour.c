@@ -274,15 +274,23 @@ Liste_Contour extraire_les_contours(Image I){
 	}
 	return liste;
 }
-
-Contour simplification_contour(Contour contour,UINT dist){
-	Point pj1 = contour.first->data;
-	Point pj2 = contour.last->data;
+/*
+Contour simplification_contour(Contour contour,UINT j1, UINT j2,UINT dist){
+	Cellule_Liste_Point * pj1 = contour.first;
+	for (int i = 0; i < j1; i++){
+		pj1 = pj1->suiv;
+	}
+	Cellule_Liste_Point * pj2 = contour.last;
+	for (int i = 0; i < j1; i++)
+	{
+		pj2 = pj2->suiv;
+	}
 	UINT j1 = 1;
-	UINT j2 = taille
+	UINT j2 = contour.taille;
 	double distmax = 0;
 	UINT k = j1;
 	for (int j = j1 + 1; j < j2;j++){
-		double dj = dist
+		double dj = distance_segment()
 	}
 }
+*/
