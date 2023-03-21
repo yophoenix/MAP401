@@ -33,4 +33,6 @@ double scalaire(Vecteur v1, Vecteur v2);
 double norme(Vecteur v1);
 
 /*distance entre 2 points*/
-double distance(Point p1, Point p2);
+double distance_point(Point p1, Point p2);
+
+double distance_segment(Point a, Point b, Point p)

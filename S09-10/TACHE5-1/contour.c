@@ -43,15 +43,17 @@ Contour recupere_contour(Image I, Image M, Point pixel_init){
 	Orientation orient=Est;
 	bool boucle=true;
 	while (boucle){
-		set_pixel_image(M, position.x + 1, position.y + 1, BLANC);
+		if (orient == Est)
+		{
+			set_pixel_image(M, position.x + 1, position.y + 1, BLANC);
+		}
 		memoriser_position(&liste,position);
-		position = avancer(position,orient);
+		position = avancer(position, orient);
 		orient = nouvelle_orientation(I,position,orient);
 		if (position.x == pos_init.x && position.y == pos_init.y && orient==Est){
 			boucle=false;
 		}
 	}
-	set_pixel_image(M, position.x + 1, position.y + 1, BLANC);
 	memoriser_position(&liste,position);
 	return liste;
 }

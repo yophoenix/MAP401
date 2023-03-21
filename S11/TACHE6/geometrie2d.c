@@ -42,6 +42,23 @@ double norme(Vecteur v){
     return sqrt(pow(v.x,2) +pow(v.y,2));
 }
 
-double distance(Point p1,Point p2){
+double distance_point(Point p1,Point p2){
     return sqrt(pow(p1.x - p2.x,2)+pow(p1.y - p2.y,2));
+}
+
+double distance_segment(Point a, Point b, Point p){
+    if(a.x==b.x&&a.y==b.y){
+        return distance_point(a, p);
+    }
+    Vecteur ap = vect_bipoint(a, p);
+    Vecteur ab = vect_bipoint(a, b);
+    double lambda = scalaire(ap, ab) / scalaire(ab, ab);
+    if (lambda<0){
+        return distance_point(a, p);
+    }
+    if(lambda>1){
+        return distance_point(b, p);
+    }
+    Point q = {a.x + lambda * (b.x - a.x), a.y + lambda * (b.y - a.y)};
+    return distance_point(q, p);
 }
