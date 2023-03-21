@@ -31,7 +31,7 @@ void ecrire_liste_contours(Liste_Contour L, char *nom_fichier);
 
 void ecrire_contour_eps(Contour L, char *nom_fichier, Image I, int fill);
 
-void ecrire_image_eps(Liste_Contour L, char* nom_fichier, Image I, int fill);
+void ecrire_image_eps(Liste_Contour L, char* nom_fichier, Image I);
 
 char *modifier_extension(char *nom,char *extension);
 
