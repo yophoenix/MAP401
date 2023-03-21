@@ -70,7 +70,7 @@ image.o : image.c image.h types_macros.h
 	@echo "---------------------------------------------"
 	$(CC) -c $(COMPILOPTS) $<
 
-contour.o : contour.c contour.h image.h types_macros.h
+contour.o : contour.c contour.h image.h types_macros.h geometrie2d.h
 	@echo ""
 	@echo "---------------------------------------------"
 	@echo "Compilation du module contour"
@@ -91,7 +91,7 @@ geometrie2d.o : geometrie2d.c geometrie2d.h
 	@echo "---------------------------------------------"
 	$(CC) -c $(COMPILOPTS) $<
 
-test_contour.o : test_contour.c image.h contour.h liste_chainee.h types_macros.h
+test_contour.o : test_contour.c image.h contour.h liste_chainee.h types_macros.h geometrie2d.h
 	@echo ""
 	@echo "---------------------------------------------"
 	@echo "Compilation du module test_contour"
@@ -102,7 +102,7 @@ test_contour.o : test_contour.c image.h contour.h liste_chainee.h types_macros.h
 ########################################################
 # regles explicites de creation des executables
 
-test_contour : test_contour.o liste_chainee.o contour.o image.o 
+test_contour : test_contour.o liste_chainee.o contour.o image.o  geometrie2d.o
 	@echo ""
 	@echo "---------------------------------------------"
 	@echo "Creation de l'executable "$@

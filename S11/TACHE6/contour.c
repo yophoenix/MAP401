@@ -6,6 +6,7 @@
 #include "contour.h"
 #include "liste_chainee.h"
 #include "types_macros.h"
+#include "geometrie2d.h"
 
 Point trouve_pixel_init(Image I, Point pixel)
 {
@@ -272,4 +273,16 @@ Liste_Contour extraire_les_contours(Image I){
 		pixel_init = trouve_pixel_init(M, pixel_init);
 	}
 	return liste;
+}
+
+Contour simplification_contour(Contour contour,UINT dist){
+	Point pj1 = contour.first->data;
+	Point pj2 = contour.last->data;
+	UINT j1 = 1;
+	UINT j2 = taille
+	double distmax = 0;
+	UINT k = j1;
+	for (int j = j1 + 1; j < j2;j++){
+		double dj = dist
+	}
 }
