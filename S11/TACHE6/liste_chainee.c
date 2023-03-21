@@ -3,12 +3,6 @@
 #include "liste_chainee.h"
 #include "contour.h"
 
-Point set_point (double x , double y)
-{
-	Point P = {x , y};
-	return P;
-}
-
 /* créer une cellule de liste avec l'élément v 
    renvoie le pointeur sur la cellule de liste créée
    la fonction s'arrete si la création n'a pas pu se faire */

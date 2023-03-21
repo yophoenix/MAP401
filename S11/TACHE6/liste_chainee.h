@@ -1,12 +1,9 @@
 #ifndef _LISTE_CHAINEE_
 #define _LISTE_CHAINEE_
 
+#include "geometrie2d.h"
 #include "image.h"
 #include "types_macros.h"
-
-typedef struct Point_ {
-	double x , y ; /* coordonnees */
-} Point ;
 
 /*---- le type cellule de liste de point ----*/
 typedef struct Cellule_Liste_Point_
@@ -68,8 +65,5 @@ Liste_Point concatener_liste_Point(Liste_Point L1, Liste_Point L2);
 Liste_Contour concatener_liste_Contour(Liste_Contour L1, Liste_Contour L2);
 
 Tableau_Point sequence_points_liste_vers_tableau(Liste_Point L);
-
-/* cree le point de coordonnees ( x , y ) */
-Point set_point ( double x , double y ) ;
 
 #endif
