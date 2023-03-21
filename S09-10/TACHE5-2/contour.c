@@ -7,21 +7,22 @@
 #include "liste_chainee.h"
 #include "types_macros.h"
 
-Point trouve_pixel_init(Image I)
+Point trouve_pixel_init(Image I, Point pixel)
 {
-	UINT h = 1;
-	UINT l = 1;
+	UINT h = pixel.y;
+	UINT l = pixel.x;
 	UINT L = largeur_image(I);
 	UINT H = hauteur_image(I);
 	Point pixel_init = {0, 0};
-	while ((h <= H) && (pixel_init.x == 0))
+	while (h <= H)
 	{
-		while ((l <= L) && (pixel_init.x == 0))
+		while (l <= L)
 		{
 			if (get_pixel_image(I, l, h) && !get_pixel_image(I, l, h - 1))
 			{
 				pixel_init.x = l;
 				pixel_init.y = h;
+				return pixel_init;
 			}
 			l++;
 		}
@@ -43,7 +44,9 @@ Contour recupere_contour(Image I, Image M, Point pixel_init){
 	Orientation orient=Est;
 	bool boucle=true;
 	while (boucle){
-		set_pixel_image(M, position.x + 1, position.y + 1, BLANC);
+		if (orient==Est){
+			set_pixel_image(M, position.x + 1, position.y + 1, BLANC);
+		}
 		memoriser_position(&liste,position);
 		position = avancer(position,orient);
 		orient = nouvelle_orientation(I,position,orient);
@@ -51,7 +54,6 @@ Contour recupere_contour(Image I, Image M, Point pixel_init){
 			boucle=false;
 		}
 	}
-	set_pixel_image(M, position.x + 1, position.y + 1, BLANC);
 	memoriser_position(&liste,position);
 	return liste;
 }
@@ -130,14 +132,14 @@ void ecrire_contour_fichier(Contour L,FILE * f)
 	Tableau_Point TP = sequence_points_liste_vers_tableau(L);
 	int k;
 	int nP = TP.taille;
-	
+
 	fprintf(f,"\n%d\n",nP);
 	for (k = 0; k < nP; k++)
 	{	
 		Point P = TP.tab[k]; /* récupérer le point d'indice k */
 		fprintf(f," %5.1f %5.1f\n", P.x, P.y);
 	} 
-	
+
 	free(TP.tab); /* supprimer le tableau de point TP */
 }
 
@@ -221,21 +223,21 @@ char *modifier_extension(char* nom,char *extension){
 }
 
 /*char *stroke_ou_fill(char* nom,int fill){
-	int x=0;
-	while (nom[x]!='.'){
-		x++;
-	}
-	char* nom_fichier = calloc(x + 15, sizeof(char));
-	for(int i=0;i<x;i++){
-		nom_fichier[i]=nom[i];
-	}
-	if (fill){
-		nom_fichier=strcat(nom_fichier,"-fill.");
-	}else{
-		nom_fichier=strcat(nom_fichier,"-stroke.");
-	}
-	return nom_fichier;
-}*/
+  int x=0;
+  while (nom[x]!='.'){
+  x++;
+  }
+  char* nom_fichier = calloc(x + 15, sizeof(char));
+  for(int i=0;i<x;i++){
+  nom_fichier[i]=nom[i];
+  }
+  if (fill){
+  nom_fichier=strcat(nom_fichier,"-fill.");
+  }else{
+  nom_fichier=strcat(nom_fichier,"-stroke.");
+  }
+  return nom_fichier;
+  }*/
 
 Image init_masque(Image I){
 	UINT L = largeur_image(I);
@@ -262,11 +264,12 @@ Image init_masque(Image I){
 Liste_Contour extraire_les_contours(Image I){
 	Liste_Contour liste = creer_liste_Contour_vide();
 	Image M = init_masque(I);
-	Point pixel_init = trouve_pixel_init(M);
+	Point pixel_init = {0,0};
+	pixel_init = trouve_pixel_init(M, pixel_init);
 	while(pixel_init.x!=0){
 		Contour c = recupere_contour(I, M, pixel_init);
 		ajouter_element_liste_Contour(&liste,c);
-		pixel_init = trouve_pixel_init(M);
+		pixel_init = trouve_pixel_init(M, pixel_init);
 	}
 	return liste;
 }
