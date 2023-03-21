@@ -13,7 +13,7 @@ void calcul_contour(Contour liste);
 
 void affiche_liste_contour(Liste_Contour liste);
 
-Point trouve_pixel_init(Image I);
+Point trouve_pixel_init(Image I, Point pixel);
 
 void memoriser_position(Liste_Point *liste, Point p);
 
