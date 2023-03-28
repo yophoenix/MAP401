@@ -276,34 +276,25 @@ Liste_Contour extraire_les_contours(Image I){
 }
 
 Contour simplification_contour(Contour contour,UINT j1, UINT j2,UINT dist){
-	Contour L = creer_liste_Point_vide();
-	Cellule_Liste_Point * pj1 = contour.first;
-	for (int i = 0; i < j1; i++){
-		pj1 = pj1->suiv;
-	}
-	Cellule_Liste_Point * pj2 = contour.first;
-	for (int i = 0; i < contour.taille-j2; i++){
-		pj2 = pj2->suiv;
-	}
-	Vecteur s = vect_bipoint(pj1->data, pj2->data);
+	Liste_Point L = creer_liste_Point_vide();
 	double dmax = 0;
 	UINT k = j1;
-	Cellule_Liste_Contour *pj = pj1;
+	Tableau_Point tabcontour =sequence_points_liste_vers_tableau(contour);
 	for (int j = j1 + 1; j < j2;j++){
-		double dj = distance_segment(pj1->data,pj2->data, pj->data);
+		double dj = distance_segment(tabcontour.tab[j1],tabcontour.tab[j2],tabcontour.tab[j]);
 		if(dmax<dj){
 			dmax = dj;
 			k = j;
 		}
-		pj = pj->suiv;
 	}
 	if(dmax<=dist){
-		ajouter_element_liste_Point(&L, pj1->data);
-		ajouter_element_liste_Point(&L, pj2->data);
+		ajouter_element_liste_Point(&L,tabcontour.tab[j1]);
+		ajouter_element_liste_Point(&L, tabcontour.tab[j2]);
 	}
+	else{
 	Contour L1 = simplification_contour(contour, j1, k, dist);
 	Contour L2 = simplification_contour(contour, k, j2, dist);
-	L=concatener_liste_Point(L1, L2);
+	L = concatener_liste_Point(L1, L2);
+	}
 	return L;
-	/*pas fini*/
 }
