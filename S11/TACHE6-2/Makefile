@@ -37,7 +37,7 @@ INCLUDEOPTS = -I$(INCDIR)
 COMPILOPTS = -g -Wall $(INCLUDEOPTS)
 
 # liste des executables
-EXECUTABLES = test_contour
+EXECUTABLES = test_simplification
 
 
 #############################################################################
@@ -91,7 +91,7 @@ geometrie2d.o : geometrie2d.c geometrie2d.h
 	@echo "---------------------------------------------"
 	$(CC) -c $(COMPILOPTS) $<
 
-test_contour.o : test_contour.c image.h contour.h liste_chainee.h types_macros.h geometrie2d.h
+test_simplification.o : test_simplification.c image.h contour.h liste_chainee.h types_macros.h geometrie2d.h
 	@echo ""
 	@echo "---------------------------------------------"
 	@echo "Compilation du module test_contour"
@@ -102,7 +102,7 @@ test_contour.o : test_contour.c image.h contour.h liste_chainee.h types_macros.h
 ########################################################
 # regles explicites de creation des executables
 
-test_contour : test_contour.o liste_chainee.o contour.o image.o  geometrie2d.o
+test_simplification : test_simplification.o liste_chainee.o contour.o image.o  geometrie2d.o
 	@echo ""
 	@echo "---------------------------------------------"
 	@echo "Creation de l'executable "$@
