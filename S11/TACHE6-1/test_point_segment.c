@@ -1,5 +1,4 @@
 #include <stdio.h>
-#include "image.h"
 #include "geometrie2d.h"
 
 int main(int argc, char** argv){

@@ -63,12 +63,6 @@ all : $(EXECUTABLES)
 ########################################################
 # regles explicites de compilation separee de modules
 # n'ayant pas de fichier .h ET/OU dependant d'autres modules
-image.o : image.c image.h types_macros.h
-	@echo ""
-	@echo "---------------------------------------------"
-	@echo "Compilation du module image"
-	@echo "---------------------------------------------"
-	$(CC) -c $(COMPILOPTS) $<
 
 geometrie2d.o : geometrie2d.c geometrie2d.h
 	@echo ""
@@ -77,7 +71,7 @@ geometrie2d.o : geometrie2d.c geometrie2d.h
 	@echo "---------------------------------------------"
 	$(CC) -c $(COMPILOPTS) $<
 
-test_point_segment.o : test_point_segment.c image.h types_macros.h geometrie2d.h
+test_point_segment.o : test_point_segment.c types_macros.h geometrie2d.h
 	@echo ""
 	@echo "---------------------------------------------"
 	@echo "Compilation du module test_point_segment"
@@ -88,7 +82,7 @@ test_point_segment.o : test_point_segment.c image.h types_macros.h geometrie2d.h
 ########################################################
 # regles explicites de creation des executables
 
-test_point_segment : test_point_segment.o image.o  geometrie2d.o
+test_point_segment : test_point_segment.o  geometrie2d.o
 	@echo ""
 	@echo "---------------------------------------------"
 	@echo "Creation de l'executable "$@
