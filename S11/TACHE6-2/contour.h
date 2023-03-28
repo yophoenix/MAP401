@@ -43,4 +43,6 @@ Liste_Contour extraire_les_contours(Image I);
 
 Contour simplification_contour(Contour contour, UINT j1, UINT j2, UINT dist);
 
+Liste_Contour simplification_contours(Liste_Contour L, UINT dist);
+
 #endif

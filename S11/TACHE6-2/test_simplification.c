@@ -16,15 +16,13 @@ int main(int argc, char** argv){
 	printf("hauteur image: %u\n", hauteur_image(I));
 	printf("largeur image: %u\n", largeur_image(I));
 	Liste_Contour L = extraire_les_contours(I);
-	Cellule_Liste_Contour* celcontour = L.first;
-	printf("La");
-	while (celcontour!=NULL){
-		Contour c = simplification_contour(celcontour->data, 0, celcontour->data.taille, dist);
-		celcontour->data = c;
-		celcontour = celcontour->suiv;
-	}
+	affiche_liste_contour(L);
+	Liste_Contour LC = simplification_contours(L, dist);
+	printf("image simplifiée:\n");
+	affiche_liste_contour(LC);
 	char *nom_fichier=modifier_extension(argv[1],"eps");
-	ecrire_image_eps(L, nom_fichier, I);
+	printf("La \n");
+	ecrire_image_eps(LC, nom_fichier, I);
 	//printf("Ecriture du contour dans le fichier texte : %s\n",nom_fichier);
 	//ecrire_liste_contours(L,nom_fichier);
 	return 0;
