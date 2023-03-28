@@ -70,20 +70,6 @@ image.o : image.c image.h types_macros.h
 	@echo "---------------------------------------------"
 	$(CC) -c $(COMPILOPTS) $<
 
-#contour.o : contour.c contour.h image.h types_macros.h geometrie2d.h
-#	@echo ""
-#	@echo "---------------------------------------------"
-#	@echo "Compilation du module contour"
-#	@echo "---------------------------------------------"
-#	$(CC) -c $(COMPILOPTS) $<
-
-#liste_chainee.o : liste_chainee.c liste_chainee.h image.h types_macros.h
-#	@echo ""
-#	@echo "---------------------------------------------"
-#	@echo "Compilation du module liste_chainee"
-#	@echo "---------------------------------------------"
-#	$(CC) -c $(COMPILOPTS) $<
-
 geometrie2d.o : geometrie2d.c geometrie2d.h
 	@echo ""
 	@echo "---------------------------------------------"
