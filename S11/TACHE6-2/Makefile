@@ -94,7 +94,7 @@ geometrie2d.o : geometrie2d.c geometrie2d.h
 test_simplification.o : test_simplification.c image.h contour.h liste_chainee.h types_macros.h geometrie2d.h
 	@echo ""
 	@echo "---------------------------------------------"
-	@echo "Compilation du module test_contour"
+	@echo "Compilation du module test_simplification"
 	@echo "---------------------------------------------"
 	$(CC) -c $(COMPILOPTS) $<
 
