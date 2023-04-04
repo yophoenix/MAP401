@@ -202,15 +202,11 @@ void ecrire_contour_eps(Contour L, char *nom_fichier, Image I, int fill)
 	fclose(f);
 }
 
-void ecrire_image_eps(Liste_Contour L, char *nom_fichier, Image I)
+void ecrire_image_eps(Liste_Contour L, char *nom_fichier, UINT h,UINT l)
 {
 	FILE *f = fopen(nom_fichier, "w");
 
-	UINT l = largeur_image(I);
-	UINT h = hauteur_image(I);
-	printf("ici2\n");
 	fprintf(f, "%%!PS-Adobe-3.0 EPSF-3.0\n%%%%BoundingBox: 0 0 %d %d\n\n", l, h);
-	printf("ici\n");
 	Cellule_Liste_Contour *C = L.first;
 	Cellule_Liste_Point *cel = NULL;
 	
@@ -219,11 +215,11 @@ void ecrire_image_eps(Liste_Contour L, char *nom_fichier, Image I)
 		cel = C->data.first;
 		if (cel != NULL)
 		{
-			fprintf(f, "%.0f %.0f moveto ", cel->data.x, I.la_hauteur_de_l_image - cel->data.y);
+			fprintf(f, "%.0f %.0f moveto ", cel->data.x, h - cel->data.y);
 			cel = cel->suiv;
 			while (cel != NULL)
 			{
-				fprintf(f, "%.0f %.0f lineto \n", cel->data.x, I.la_hauteur_de_l_image - cel->data.y);
+				fprintf(f, "%.0f %.0f lineto \n", cel->data.x, l - cel->data.y);
 				cel = cel->suiv;
 			}
 		}
@@ -237,6 +233,9 @@ char *modifier_extension(char *nom, char *extension)
 {
 	char *nom_fichier = nom;
 	int x = 0;
+	if (nom_fichier[x]=='.' && nom_fichier[x+1]=='/'){
+		x += 2;
+	}
 	while (nom_fichier[x] != '.')
 	{
 		x++;
@@ -306,11 +305,11 @@ Liste_Contour extraire_les_contours(Image I)
 	return liste;
 }
 
-Contour simplification_contour(Contour contour,UINT j1, UINT j2,UINT dist){
+Contour simplification_contour(Tableau_Point tabcontour,UINT j1, UINT j2,UINT dist){
 	Liste_Point L = creer_liste_Point_vide();
 	double dmax = 0;
 	UINT k = j1;
-	Tableau_Point tabcontour =sequence_points_liste_vers_tableau(contour);
+	
 	for (int j = j1 + 1; j < j2;j++){
 		double dj = distance_segment(tabcontour.tab[j1],tabcontour.tab[j2],tabcontour.tab[j]);
 		if(dmax<dj){
@@ -323,20 +322,26 @@ Contour simplification_contour(Contour contour,UINT j1, UINT j2,UINT dist){
 		ajouter_element_liste_Point(&L, tabcontour.tab[j2]);
 	}
 	else{
-		Contour L1 = simplification_contour(contour, j1, k, dist);
-		Contour L2 = simplification_contour(contour, k, j2, dist);
+		Contour L1 = simplification_contour(tabcontour, j1, k, dist);
+		Contour L2 = simplification_contour(tabcontour, k, j2, dist);
+		L2 = supp_first_element_liste_Point(L2);
 		L = concatener_liste_Point(L1, L2);
 	}
 	return L;
 }
 
 Liste_Contour simplification_contours(Liste_Contour L,UINT dist){
+	if(L.first==NULL){
+		printf("Il n'y rien dans la liste contour donc pas simplifiable");
+		return L;
+	}
 	Cellule_Liste_Contour *celcontour = L.first;
 	Liste_Contour LC = creer_liste_Contour_vide();
 	for (int i = 0; i < L.taille; i++){
-	Contour c = simplification_contour(celcontour->data, 0, celcontour->data.taille-1, dist);
-	ajouter_element_liste_Contour(&LC, c);
-	celcontour = celcontour->suiv;
+		Tableau_Point tabcontour = sequence_points_liste_vers_tableau(celcontour->data);
+		Contour c = simplification_contour(tabcontour, 0, celcontour->data.taille - 1, dist);
+		ajouter_element_liste_Contour(&LC, c);
+		celcontour = celcontour->suiv;
 	}
 	return LC;
 }
