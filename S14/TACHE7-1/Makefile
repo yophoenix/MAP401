@@ -37,7 +37,7 @@ INCLUDEOPTS = -I$(INCDIR)
 COMPILOPTS = -g -Wall $(INCLUDEOPTS)
 
 # liste des executables
-EXECUTABLES = montest_bezier test_simplification
+EXECUTABLES = test_simplification montest_bezier
 
 
 #############################################################################
@@ -87,7 +87,7 @@ liste_chainee.o : liste_chainee.c liste_chainee.h image.h types_macros.h
 test_simplification.o : test_simplification.c image.h contour.h liste_chainee.h types_macros.h geometrie2d.h
 	@echo ""
 	@echo "---------------------------------------------"
-	@echo "Compilation du module test_contour"
+	@echo "Compilation du module test_simplification"
 	@echo "---------------------------------------------"
 	$(CC) -c $(COMPILOPTS) $<
 
@@ -101,14 +101,14 @@ montest_bezier.o : montest_bezier.c geometrie2d.h
 ########################################################
 # regles explicites de creation des executables
 
-montest_bezier : montest_bezier.o geometrie2d.o
+test_simplification : test_simplification.o liste_chainee.o contour.o image.o  geometrie2d.o
 	@echo ""
 	@echo "---------------------------------------------"
 	@echo "Creation de l'executable "$@
 	@echo "---------------------------------------------"
 	$(CC) $^ $(LDOPTS) -o $@
 
-test_simplification : test_simplification.o liste_chainee.o contour.o image.o  geometrie2d.o
+montest_bezier : montest_bezier.o geometrie2d.o
 	@echo ""
 	@echo "---------------------------------------------"
 	@echo "Creation de l'executable "$@
