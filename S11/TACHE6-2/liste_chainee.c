@@ -20,6 +20,20 @@ Cellule_Liste_Point *creer_element_liste_Point(Point v)
 	return el;
 }
 
+Contour supp_first_element_liste_Point(Contour c)
+{
+	if (c.first==NULL){
+		printf("impossible de supprimer l'element, le contour est vide");
+		return c;
+	}
+	Cellule_Liste_Point *first = c.first;
+	Cellule_Liste_Point *second = first->suiv;
+	c.first = second;
+	c.taille -= 1;
+	free(first);
+	return c;
+}
+
 Cellule_Liste_Contour *creer_element_liste_Contour(Contour c)
 {
 	Cellule_Liste_Contour *co;
@@ -33,6 +47,7 @@ Cellule_Liste_Contour *creer_element_liste_Contour(Contour c)
 	co->suiv = NULL;
 	return co;
 }
+
 
 /* créer une liste vide */
 Liste_Point creer_liste_Point_vide()
