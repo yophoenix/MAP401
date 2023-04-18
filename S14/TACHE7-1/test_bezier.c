@@ -3,8 +3,28 @@
 #include "geometrie2d.h"
 
 int main(int argc, char** argv){
+	if (argc < 2)
+	{
+		printf("ERREUR. Usage : <2 ou 3><x1><y1><x2><y2><x3><y3> (si 3 <x4><y4>)\n");
+		return 1;
+	}
+
 	int arg;
 	sscanf(argv[1],"%d",&arg);
+	if (arg!=2&&arg!=3){
+		printf("ERREUR de l'arg 1. Usage : <2 ou 3><x1><y1><x2><y2><x3><y3>\n");
+		return 1;
+	}
+	if (argc<9 && arg==2){
+		printf("ERREUR. Usage : <2 ou 3><x1><y1><x2><y2><x3><y3><t>\n");
+		return 1;
+	}
+	if (argc < 11 && arg == 3)
+	{
+		printf("ERREUR. Usage : <2 ou 3><x1><y1><x2><y2><x3><y3><x4><y4><t>\n");
+		return 1;
+	}
+
 	double x1,x2,x3,y1,y2,y3,t;
 	sscanf(argv[2],"%lf",&x1);
 	sscanf(argv[3],"%lf",&y1);
@@ -12,13 +32,16 @@ int main(int argc, char** argv){
 	sscanf(argv[5],"%lf",&y2);
 	sscanf(argv[6],"%lf",&x3);
 	sscanf(argv[7],"%lf",&y3);
+
 	Point C0 = {x1,y1},
 		  C1 = {x2,y2},
 		  C2 = {x3,y3},
 		  C;
+
 	if (arg==2){
 		sscanf(argv[8],"%lf",&t);
 		Bezier2 B = {C0,C1,C2};
+
 		printf("Point de la courbe de Bézier en %.1lf :\n",t);
 		C = calcul_point_bezier2(B,t);
 		printf("Le point C est de coord {%.1lf,%.1lf}\n",C.x,C.y);
