@@ -2,10 +2,12 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #include <string.h>
+#include <math.h>
 
 #include "contour.h"
 #include "liste_chainee.h"
 #include "types_macros.h"
+
 
 Point trouve_pixel_init(Image I, Point pixel)
 {
@@ -339,4 +341,32 @@ Liste_Contour simplification_contours(Liste_Contour L,UINT dist){
 	celcontour = celcontour->suiv;
 	}
 	return LC;
+}
+
+Bezier2 approx_bezier2 (Tableau_Point tab_contour,UINT j1,UINT j2){
+	Bezier2 B;
+	B.C0 = tab_contour.tab[j1];
+	B.C2 = tab_contour.tab[j2];
+
+	float n = (float)(j2-j1);
+	if (n==1){
+		B.C1.x = (tab_contour.tab[j1].x + tab_contour.tab[j2].x) / 2;
+		B.C1.y = (tab_contour.tab[j1].y + tab_contour.tab[j2].y) / 2;
+	}
+	else {
+		if(n>=2) {
+			float a = (float)((3 * n) / (n*n - 1));
+			float b = (float)((1 - 2 * n) / (2 * (n + 1)));
+			float sommex = 0;
+			float sommey = 0;
+			for (int i = 1; i <= n - 1; i++)
+			{
+				sommex = sommex + tab_contour.tab[j1 + i].x;
+				sommey = sommey + tab_contour.tab[j1 + i].y;
+			}
+			B.C1.x = a * sommex + b * (tab_contour.tab[j1].x + tab_contour.tab[j2].x);
+			B.C1.y = a * sommey + b * (tab_contour.tab[j1].y + tab_contour.tab[j2].y);
+		}
+	}
+	return B;
 }
