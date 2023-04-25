@@ -204,28 +204,24 @@ void ecrire_contour_eps(Contour L, char *nom_fichier, Image I, int fill)
 	fclose(f);
 }
 
-void ecrire_image_eps(Liste_Contour L, char *nom_fichier, Image I)
+void ecrire_image_eps(Liste_Contour L, char *nom_fichier, UINT h, UINT l)
 {
 	FILE *f = fopen(nom_fichier, "w");
 
-	UINT l = largeur_image(I);
-	UINT h = hauteur_image(I);
-	printf("ici2\n");
 	fprintf(f, "%%!PS-Adobe-3.0 EPSF-3.0\n%%%%BoundingBox: 0 0 %d %d\n\n", l, h);
-	printf("ici\n");
 	Cellule_Liste_Contour *C = L.first;
 	Cellule_Liste_Point *cel = NULL;
-	
+
 	while (C != NULL)
 	{
 		cel = C->data.first;
 		if (cel != NULL)
 		{
-			fprintf(f, "%.0f %.0f moveto ", cel->data.x, I.la_hauteur_de_l_image - cel->data.y);
+			fprintf(f, "%.0f %.0f moveto ", cel->data.x, h - cel->data.y);
 			cel = cel->suiv;
 			while (cel != NULL)
 			{
-				fprintf(f, "%.0f %.0f lineto \n", cel->data.x, I.la_hauteur_de_l_image - cel->data.y);
+				fprintf(f, "%.0f %.0f lineto \n", cel->data.x, l - cel->data.y);
 				cel = cel->suiv;
 			}
 		}
@@ -383,9 +379,12 @@ Contour simplification_contour_bezier2(Tableau_Point tabcontour, UINT j1, UINT j
 	Liste_Point L = creer_liste_Point_vide();
 	double dmax = 0;
 	UINT k = j1;
+	Bezier2 B = approx_bezier2(tabcontour, j1, j2);
 	for (int j = j1 + 1; j < j2; j++)
 	{
-		double dj = distance_segment(tabcontour.tab[j1], tabcontour.tab[j2], tabcontour.tab[j]);
+		UINT i = j - j1;
+		double ti = (float)i / (float)n;
+		double dj = distance_bezier2(tabcontour.tab[j],B,ti);
 		if (dmax < dj)
 		{
 			dmax = dj;
@@ -399,8 +398,8 @@ Contour simplification_contour_bezier2(Tableau_Point tabcontour, UINT j1, UINT j
 	}
 	else
 	{
-		Contour L1 = simplification_contour(tabcontour, j1, k, dist);
-		Contour L2 = simplification_contour(tabcontour, k, j2, dist);
+		Contour L1 = simplification_contour_bezier2(tabcontour, j1, k, dist);
+		Contour L2 = simplification_contour_bezier2(tabcontour, k, j2, dist);
 		L2 = supp_first_element_liste_Point(L2);
 		L = concatener_liste_Point(L1, L2);
 	}
