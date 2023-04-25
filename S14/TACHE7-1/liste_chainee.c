@@ -20,6 +20,19 @@ Cellule_Liste_Point *creer_element_liste_Point(Point v)
 	return el;
 }
 
+Cellule_Liste_Bezier2 *creer_element_liste_Bezier2(Bezier2 b){
+	Cellule_Liste_Bezier2 *el;
+	el = (Cellule_Liste_Bezier2 *)malloc(sizeof(Cellule_Liste_Bezier2));
+	if (el == NULL)
+	{
+		fprintf(stderr, "creer_element_liste_Point : allocation impossible\n");
+		exit(-1);
+	}
+	el->data = b;
+	el->suiv = NULL;
+	return el;
+}
+
 Contour supp_first_element_liste_Point(Contour c)
 {
 	if (c.first == NULL)
@@ -49,6 +62,7 @@ Cellule_Liste_Contour *creer_element_liste_Contour(Contour c)
 	return co;
 }
 
+
 /* créer une liste vide */
 Liste_Point creer_liste_Point_vide()
 {
@@ -60,6 +74,12 @@ Liste_Contour creer_liste_Contour_vide()
 {
 	Liste_Contour C = {0, NULL, NULL};
 	return C;
+}
+
+Liste_Bezier2 creer_liste_Bezier2_vide()
+{
+	Liste_Bezier2 L = {0, NULL, NULL};
+	return L;
 }
 
 /* ajouter l'élément e en fin de la liste L, renvoie la liste L modifiée */
@@ -97,6 +117,24 @@ void ajouter_element_liste_Contour(Liste_Contour *C, Contour e)
 		C->last = co;
 	}
 	C->taille++;
+}
+
+void ajouter_element_liste_Bezier2(Liste_Bezier2 *L, Bezier2 e)
+{
+	Cellule_Liste_Bezier2 *el;
+
+	el = creer_element_liste_Bezier2(e);
+	if (L->taille == 0)
+	{
+		/* premier élément de la liste */
+		L->first = L->last = el;
+	}
+	else
+	{
+		L->last->suiv = el;
+		L->last = el;
+	}
+	L->taille++;
 }
 
 /* suppression de tous les éléments de la liste, renvoie la liste L vide */
@@ -153,6 +191,21 @@ Liste_Contour concatener_liste_Contour(Liste_Contour C1, Liste_Contour C2)
 	C1.last = C2.last;        /* le dernier élément de C1 est celui de C2 */
 	C1.taille += C2.taille;   /* nouvelle taille pour C1 */
 	return C1;
+}
+
+Liste_Bezier2 concatener_liste_Bezier2(Liste_Bezier2 L1, Liste_Bezier2 L2)
+{
+	/* cas où l'une des deux listes est vide */
+	if (L1.taille == 0)
+		return L2;
+	if (L2.taille == 0)
+		return L1;
+
+	/* les deux listes sont non vides */
+	L1.last->suiv = L2.first; /* lien entre L1.last et L2.first */
+	L1.last = L2.last;		  /* le dernier élément de L1 est celui de L2 */
+	L1.taille += L2.taille;	  /* nouvelle taille pour L1 */
+	return L1;
 }
 
 /* créer une séquence de points sous forme d'un tableau de points 

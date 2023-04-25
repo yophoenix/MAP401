@@ -47,4 +47,8 @@ Liste_Contour simplification_contours(Liste_Contour L, UINT dist);
 
 Bezier2 approx_bezier2(Tableau_Point tab_contour, UINT j1, UINT j2);
 
+Liste_Bezier2 simplification_contour_bezier2(Tableau_Point tabcontour, UINT j1, UINT j2, UINT dist);
+
+Liste_Bezier2 simplification_contours_bezier2(Liste_Contour L, UINT dist);
+
 #endif

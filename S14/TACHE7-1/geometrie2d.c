@@ -94,3 +94,4 @@ double distance_bezier2(Point p, Bezier2 B, double ti){
     return dist;
 }
 
+
