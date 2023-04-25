@@ -57,4 +57,7 @@ Point calcul_point_bezier3(Bezier3 B, double t);
 /* conversion d'une Bézier de degré 2 en Bézier de degré 3 */
 Bezier3 conversion_bezier2_vers_3(Bezier2 B);
 
+/* distance entre une courbe de bezier2 et un point */
+double distance_bezier2(Point p, Bezier2 B, double ti);
+
 #endif

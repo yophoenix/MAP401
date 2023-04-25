@@ -308,11 +308,10 @@ Liste_Contour extraire_les_contours(Image I)
 	return liste;
 }
 
-Contour simplification_contour(Contour contour,UINT j1, UINT j2,UINT dist){
+Contour simplification_contour(Tableau_Point tabcontour,UINT j1, UINT j2,UINT dist){
 	Liste_Point L = creer_liste_Point_vide();
 	double dmax = 0;
 	UINT k = j1;
-	Tableau_Point tabcontour =sequence_points_liste_vers_tableau(contour);
 	for (int j = j1 + 1; j < j2;j++){
 		double dj = distance_segment(tabcontour.tab[j1],tabcontour.tab[j2],tabcontour.tab[j]);
 		if(dmax<dj){
@@ -325,20 +324,27 @@ Contour simplification_contour(Contour contour,UINT j1, UINT j2,UINT dist){
 		ajouter_element_liste_Point(&L, tabcontour.tab[j2]);
 	}
 	else{
-		Contour L1 = simplification_contour(contour, j1, k, dist);
-		Contour L2 = simplification_contour(contour, k, j2, dist);
+		Contour L1 = simplification_contour(tabcontour, j1, k, dist);
+		Contour L2 = simplification_contour(tabcontour, k, j2, dist);
+		L2 = supp_first_element_liste_Point(L2);
 		L = concatener_liste_Point(L1, L2);
 	}
 	return L;
 }
 
 Liste_Contour simplification_contours(Liste_Contour L,UINT dist){
+	if (L.first == NULL)
+	{
+		printf("Il n'y rien dans la liste contour donc pas simplifiable");
+		return L;
+	}
 	Cellule_Liste_Contour *celcontour = L.first;
 	Liste_Contour LC = creer_liste_Contour_vide();
 	for (int i = 0; i < L.taille; i++){
-	Contour c = simplification_contour(celcontour->data, 0, celcontour->data.taille-1, dist);
-	ajouter_element_liste_Contour(&LC, c);
-	celcontour = celcontour->suiv;
+		Tableau_Point tabcontour = sequence_points_liste_vers_tableau(celcontour->data);
+		Contour c = simplification_contour(tabcontour, 0, celcontour->data.taille - 1, dist);
+		ajouter_element_liste_Contour(&LC, c);
+		celcontour = celcontour->suiv;
 	}
 	return LC;
 }
@@ -369,4 +375,38 @@ Bezier2 approx_bezier2 (Tableau_Point tab_contour,UINT j1,UINT j2){
 		}
 	}
 	return B;
+}
+
+Contour simplification_contour_bezier2(Tableau_Point tabcontour, UINT j1, UINT j2, UINT dist)
+{
+	UINT n = j2 - j1;
+	Liste_Point L = creer_liste_Point_vide();
+	double dmax = 0;
+	UINT k = j1;
+	for (int j = j1 + 1; j < j2; j++)
+	{
+		double dj = distance_segment(tabcontour.tab[j1], tabcontour.tab[j2], tabcontour.tab[j]);
+		if (dmax < dj)
+		{
+			dmax = dj;
+			k = j;
+		}
+	}
+	if (dmax <= dist)
+	{
+		ajouter_element_liste_Point(&L, tabcontour.tab[j1]);
+		ajouter_element_liste_Point(&L, tabcontour.tab[j2]);
+	}
+	else
+	{
+		Contour L1 = simplification_contour(tabcontour, j1, k, dist);
+		Contour L2 = simplification_contour(tabcontour, k, j2, dist);
+		L2 = supp_first_element_liste_Point(L2);
+		L = concatener_liste_Point(L1, L2);
+	}
+	return L;
+}
+
+Liste_Contour simplification_contours_bezier2(){
+
 }

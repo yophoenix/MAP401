@@ -59,7 +59,7 @@ int main (int argc, char* argv[]){
         Contour c = creer_liste_Point_vide();
         for (int i = 0; i <= n; i++)
         {
-            Point Pi = calcul_point_bezier2(B, i / n);
+            Point Pi = calcul_point_bezier2(B, (float)i / (float)n);
             ajouter_element_liste_Point(&c, Pi);
         }
         Tableau_Point tab_c = sequence_points_liste_vers_tableau(c);

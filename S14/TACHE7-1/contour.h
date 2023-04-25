@@ -41,7 +41,7 @@ Image init_masque(Image M);
 
 Liste_Contour extraire_les_contours(Image I);
 
-Contour simplification_contour(Contour contour, UINT j1, UINT j2, UINT dist);
+Contour simplification_contour(Tableau_Point tabcontour, UINT j1, UINT j2, UINT dist);
 
 Liste_Contour simplification_contours(Liste_Contour L, UINT dist);
 

@@ -46,6 +46,8 @@ typedef struct Tableau_Point_
    la fonction s'arrete si la création n'a pas pu se faire */
 Cellule_Liste_Point *creer_element_liste_Point(Point v);
 
+Contour supp_first_element_liste_Point(Contour c);
+
 Cellule_Liste_Contour *creer_element_liste_Contour(Contour c);
 
 Liste_Point creer_liste_Point_vide();

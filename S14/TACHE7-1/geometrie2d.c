@@ -88,3 +88,9 @@ Bezier3 conversion_bezier2_vers_3(Bezier2 B){
 	return Bc;
 }
 
+double distance_bezier2(Point p, Bezier2 B, double ti){
+    Point C = calcul_point_bezier2(B, ti);
+    double dist = distance_point(p, C);
+    return dist;
+}
+
