@@ -37,7 +37,7 @@ INCLUDEOPTS = -I$(INCDIR)
 COMPILOPTS = -g -Wall $(INCLUDEOPTS)
 
 # liste des executables
-EXECUTABLES = test_simplification test_geobezier test_aprox_bezier2
+EXECUTABLES = test_simplification test_geobezier test_aprox_bezier2 test_bezier2
 
 
 #############################################################################
@@ -101,7 +101,14 @@ test_geobezier.o : test_geobezier.c geometrie2d.h
 test_aprox_bezier2.o : test_aprox_bezier2.c geometrie2d.h image.h contour.h liste_chainee.h types_macros.h
 	@echo ""
 	@echo "---------------------------------------------"
-	@echo "Compilation du module test_geobezier"
+	@echo "Compilation du module test_aprox_bezier2"
+	@echo "---------------------------------------------"
+	$(CC) -c $(COMPILOPTS) $<
+
+test_bezier2.o : test_bezier2.c geometrie2d.h image.h contour.h liste_chainee.h types_macros.h
+	@echo ""
+	@echo "---------------------------------------------"
+	@echo "Compilation du module test_bezier2"
 	@echo "---------------------------------------------"
 	$(CC) -c $(COMPILOPTS) $<
 
@@ -124,6 +131,13 @@ test_geobezier : test_geobezier.o geometrie2d.o
 	$(CC) $^ $(LDOPTS) -o $@
 
 test_aprox_bezier2 : test_aprox_bezier2.o geometrie2d.o contour.o image.o liste_chainee.o
+	@echo ""
+	@echo "---------------------------------------------"
+	@echo "Creation de l'executable "$@
+	@echo "---------------------------------------------"
+	$(CC) $^ $(LDOPTS) -o $@
+
+test_bezier2 : test_bezier2.o geometrie2d.o contour.o image.o liste_chainee.o
 	@echo ""
 	@echo "---------------------------------------------"
 	@echo "Creation de l'executable "$@

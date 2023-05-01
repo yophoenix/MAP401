@@ -13,6 +13,8 @@ void calcul_contour(Contour liste);
 
 void affiche_liste_contour(Liste_Contour liste);
 
+void affiche_liste_Bezier2(Liste_Contour_Bezier2 liste);
+
 Point trouve_pixel_init(Image I, Point pixel);
 
 void memoriser_position(Liste_Point *liste, Point p);
@@ -33,7 +35,9 @@ void ecrire_contour_eps(Contour L, char *nom_fichier, Image I, int fill);
 
 void ecrire_image_eps(Liste_Contour L, char *nom_fichier, UINT h, UINT l);
 
-char *modifier_extension(char *nom,char *extension);
+void ecrire_image_eps_bezier2(Liste_Contour_Bezier2 L, char *nom_fichier, UINT h, UINT l);
+
+char *modifier_extension(char *nom, char *extension);
 
 char *stroke_ou_fill(char* nom,int fill);
 
@@ -49,6 +53,6 @@ Bezier2 approx_bezier2(Tableau_Point tab_contour, UINT j1, UINT j2);
 
 Liste_Bezier2 simplification_contour_bezier2(Tableau_Point tabcontour, UINT j1, UINT j2, UINT dist);
 
-Liste_Bezier2 simplification_contours_bezier2(Liste_Contour L, UINT dist);
+Liste_Contour_Bezier2 simplification_contours_bezier2(Liste_Contour L, UINT dist);
 
 #endif
