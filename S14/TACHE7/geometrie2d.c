@@ -94,4 +94,9 @@ double distance_bezier2(Point p, Bezier2 B, double ti){
     return dist;
 }
 
-
+double distance_bezier3(Point p, Bezier3 B, double ti)
+{
+    Point C = calcul_point_bezier3(B, ti);
+    double dist = distance_point(p, C);
+    return dist;
+}

@@ -47,6 +47,34 @@ Cellule_Liste_Contour_Bezier2 *creer_element_liste_Contour_Bezier2(Liste_Bezier2
 	return el;
 }
 
+Cellule_Liste_Bezier3 *creer_element_liste_Bezier3(Bezier3 b)
+{
+	Cellule_Liste_Bezier3 *el;
+	el = (Cellule_Liste_Bezier3 *)malloc(sizeof(Cellule_Liste_Bezier3));
+	if (el == NULL)
+	{
+		fprintf(stderr, "creer_element_liste_Bezier3 : allocation impossible\n");
+		exit(-1);
+	}
+	el->data = b;
+	el->suiv = NULL;
+	return el;
+}
+
+Cellule_Liste_Contour_Bezier3 *creer_element_liste_Contour_Bezier3(Liste_Bezier3 b)
+{
+	Cellule_Liste_Contour_Bezier3 *el;
+	el = (Cellule_Liste_Contour_Bezier3 *)malloc(sizeof(Cellule_Liste_Contour_Bezier3));
+	if (el == NULL)
+	{
+		fprintf(stderr, "creer_element_liste_contour_Bezier3 : allocation impossible\n");
+		exit(-1);
+	}
+	el->data = b;
+	el->suiv = NULL;
+	return el;
+}
+
 Contour supp_first_element_liste_Point(Contour c)
 {
 	if (c.first == NULL)
@@ -99,6 +127,18 @@ Liste_Bezier2 creer_liste_Bezier2_vide()
 Liste_Contour_Bezier2 creer_liste_Contour_Bezier2_vide()
 {
 	Liste_Contour_Bezier2 L = {0, NULL, NULL};
+	return L;
+}
+
+Liste_Bezier3 creer_liste_Bezier3_vide()
+{
+	Liste_Bezier3 L = {0, NULL, NULL};
+	return L;
+}
+
+Liste_Contour_Bezier3 creer_liste_Contour_Bezier3_vide()
+{
+	Liste_Contour_Bezier3 L = {0, NULL, NULL};
 	return L;
 }
 
@@ -162,6 +202,42 @@ void ajouter_element_liste_Contour_Bezier2(Liste_Contour_Bezier2 *L, Liste_Bezie
 	Cellule_Liste_Contour_Bezier2 *el;
 
 	el = creer_element_liste_Contour_Bezier2(e);
+	if (L->taille == 0)
+	{
+		/* premier élément de la liste */
+		L->first = L->last = el;
+	}
+	else
+	{
+		L->last->suiv = el;
+		L->last = el;
+	}
+	L->taille++;
+}
+
+void ajouter_element_liste_Bezier3(Liste_Bezier3 *L, Bezier3 e)
+{
+	Cellule_Liste_Bezier3 *el;
+
+	el = creer_element_liste_Bezier3(e);
+	if (L->taille == 0)
+	{
+		/* premier élément de la liste */
+		L->first = L->last = el;
+	}
+	else
+	{
+		L->last->suiv = el;
+		L->last = el;
+	}
+	L->taille++;
+}
+
+void ajouter_element_liste_Contour_Bezier3(Liste_Contour_Bezier3 *L, Liste_Bezier3 e)
+{
+	Cellule_Liste_Contour_Bezier3 *el;
+
+	el = creer_element_liste_Contour_Bezier3(e);
 	if (L->taille == 0)
 	{
 		/* premier élément de la liste */
@@ -247,6 +323,36 @@ Liste_Bezier2 concatener_liste_Bezier2(Liste_Bezier2 L1, Liste_Bezier2 L2)
 }
 
 Liste_Contour_Bezier2 concatener_liste_Contour_Bezier2(Liste_Contour_Bezier2 L1, Liste_Contour_Bezier2 L2)
+{
+	/* cas où l'une des deux listes est vide */
+	if (L1.taille == 0)
+		return L2;
+	if (L2.taille == 0)
+		return L1;
+
+	/* les deux listes sont non vides */
+	L1.last->suiv = L2.first; /* lien entre L1.last et L2.first */
+	L1.last = L2.last;		  /* le dernier élément de L1 est celui de L2 */
+	L1.taille += L2.taille;	  /* nouvelle taille pour L1 */
+	return L1;
+}
+
+Liste_Bezier3 concatener_liste_Bezier3(Liste_Bezier3 L1, Liste_Bezier3 L2)
+{
+	/* cas où l'une des deux listes est vide */
+	if (L1.taille == 0)
+		return L2;
+	if (L2.taille == 0)
+		return L1;
+
+	/* les deux listes sont non vides */
+	L1.last->suiv = L2.first; /* lien entre L1.last et L2.first */
+	L1.last = L2.last;		  /* le dernier élément de L1 est celui de L2 */
+	L1.taille += L2.taille;	  /* nouvelle taille pour L1 */
+	return L1;
+}
+
+Liste_Contour_Bezier3 concatener_liste_Contour_Bezier3(Liste_Contour_Bezier3 L1, Liste_Contour_Bezier3 L2)
 {
 	/* cas où l'une des deux listes est vide */
 	if (L1.taille == 0)

@@ -91,9 +91,19 @@ void affiche_liste_Bezier2(Liste_Contour_Bezier2 liste){
 		l += cel->data.taille;
 		cel = cel->suiv;
 	}
-	printf("Il y'a %d courbes\n"
-		   "Il y a %d points\n",
-		   l, l*2-1);
+	printf("Il y'a %d courbes\n",l);
+}
+
+void affiche_liste_Bezier3(Liste_Contour_Bezier3 liste)
+{
+	UINT l = 0;
+	Cellule_Liste_Contour_Bezier3 *cel = liste.first;
+	while (cel != NULL)
+	{
+		l += cel->data.taille;
+		cel = cel->suiv;
+	}
+	printf("Il y'a %d courbes\n", l);
 }
 
 void memoriser_position(Liste_Point *liste, Point p)
@@ -268,6 +278,33 @@ void ecrire_image_eps_bezier2(Liste_Contour_Bezier2 L, char *nom_fichier, UINT h
 	fclose(f);
 }
 
+void ecrire_image_eps_bezier3(Liste_Contour_Bezier3 L, char *nom_fichier, UINT h, UINT l)
+{
+	FILE *f = fopen(nom_fichier, "w");
+
+	fprintf(f, "%%!PS-Adobe-3.0 EPSF-3.0\n%%%%BoundingBox: 0 0 %d %d\n\n", l, h);
+	Cellule_Liste_Contour_Bezier3 *C = L.first;
+	Cellule_Liste_Bezier3 *cel = NULL;
+	while (C != NULL)
+	{
+		cel = C->data.first;
+		if (cel != NULL)
+		{
+			fprintf(f, "%.0f %.0f moveto ", cel->data.C0.x, h - cel->data.C0.y);
+			while (cel != NULL)
+			{
+				Bezier3 B3 = cel->data;
+				fprintf(f, "%.0f %.0f %.0f %.0f %.0f %.0f %.0f %.0f curveto \n",
+						B3.C0.x, h - B3.C0.y, B3.C1.x, h - B3.C1.y, B3.C2.x, h - B3.C2.y, B3.C3.x, h - B3.C3.y);
+				cel = cel->suiv;
+			}
+		}
+		C = C->suiv;
+	}
+	fprintf(f, "\nfill\nshowpage");
+	fclose(f);
+}
+
 char *modifier_extension(char *nom, char *extension)
 {
 	char *nom_fichier = nom;
@@ -414,6 +451,47 @@ Bezier2 approx_bezier2 (Tableau_Point tab_contour,UINT j1,UINT j2){
 	return B;
 }
 
+double y_approx(int i, float n)
+{
+	float k = (float)i;
+	double res = 6 * pow(k, 4) - 8 * n * pow(k, 3) + 6 * pow(k, 2) - 4 * n * k + pow(n, 4) - pow(n, 2);
+	return res;
+}
+
+Bezier3 approx_bezier3 (Tableau_Point tab_contour,UINT j1, UINT j2){
+	Bezier3 B;
+	B.C0 = tab_contour.tab[j1];
+	B.C3 = tab_contour.tab[j2];
+	float n = (float)(j2 - j1);
+	if(n<3){
+		Bezier2 B2 = approx_bezier2(tab_contour, j1, j2);
+		Bezier3 B3 = conversion_bezier2_vers_3(B2);
+		B.C1 = B3.C1;
+		B.C2 = B3.C2;
+		return B;
+	}
+	double a = (-15 * pow(n, 3) + 5 * pow(n, 2) + 2 * n + 4) / (3 * (n + 2) * (3 * pow(n, 2) + 1));
+	double b = (10 * pow(n, 3) - 15 * pow(n, 2) + n + 2) / (3 * (n + 2) * (3 * pow(n, 2) + 1));
+	double l = (70 * n) / (3 * (pow(n, 2) - 1) * (pow(n, 2) - 4) * (3 * pow(n, 2) + 1));
+	double sommex1 = 0;
+	double sommey1 = 0;
+	double sommex2 = 0;
+	double sommey2 = 0;
+	for (int i=1; i < n - 1;i++){
+		double y = y_approx(i,n);
+		sommex1 = sommex1 + y*tab_contour.tab[j1 + i].x;
+		sommey1 = sommey1 + y * tab_contour.tab[j1 + i].y;
+		y = y_approx(n - i, n);
+		sommex2 = sommex2 + y * tab_contour.tab[j1 + i].x;
+		sommey2 = sommey2 + y * tab_contour.tab[j1 + i].y;
+	}
+	B.C1.x = a * tab_contour.tab[j1].x + l * sommex1 + b * tab_contour.tab[j2].x;
+	B.C1.y = a * tab_contour.tab[j1].y + l * sommey1 + b * tab_contour.tab[j2].y;
+	B.C2.x = b * tab_contour.tab[j1].x + l * sommex2 + a * tab_contour.tab[j2].x;
+	B.C2.y = b * tab_contour.tab[j1].y + l * sommey2 + a * tab_contour.tab[j2].y;
+	return B;
+}
+
 Liste_Bezier2 simplification_contour_bezier2(Tableau_Point tabcontour, UINT j1, UINT j2, UINT dist)
 {
 	UINT n = j2 - j1;
@@ -460,6 +538,57 @@ Liste_Contour_Bezier2 simplification_contours_bezier2(Liste_Contour L, UINT dist
 		Tableau_Point tabcontour = sequence_points_liste_vers_tableau(celcontour->data);
 		Liste_Bezier2 c = simplification_contour_bezier2(tabcontour, 0, celcontour->data.taille - 1, dist);
 		ajouter_element_liste_Contour_Bezier2(&LC, c);
+		celcontour = celcontour->suiv;
+	}
+	return LC;
+}
+
+Liste_Bezier3 simplification_contour_bezier3(Tableau_Point tabcontour, UINT j1, UINT j2, UINT dist)
+{
+	UINT n = j2 - j1;
+	Liste_Bezier3 L = creer_liste_Bezier3_vide();
+	double dmax = 0;
+	UINT k = j1;
+	Bezier3 B = approx_bezier3(tabcontour, j1, j2);
+	for (int j = j1 + 1; j < j2; j++)
+	{
+		UINT i = j - j1;
+		double ti = (float)i / (float)n;
+		double dj = distance_bezier3(tabcontour.tab[j], B, ti);
+		if (dmax < dj)
+		{
+			dmax = dj;
+			k = j;
+		}
+	}
+	if (dmax <= (float)dist)
+	{
+		ajouter_element_liste_Bezier3(&L, B);
+	}
+	else
+	{
+		Liste_Bezier3 L1 = simplification_contour_bezier3(tabcontour, j1, k, dist);
+		Liste_Bezier3 L2 = simplification_contour_bezier3(tabcontour, k, j2, dist);
+		L = concatener_liste_Bezier3(L1, L2);
+	}
+	return L;
+}
+
+Liste_Contour_Bezier3 simplification_contours_bezier3(Liste_Contour L, UINT dist)
+{
+	Liste_Contour_Bezier3 LC = creer_liste_Contour_Bezier3_vide();
+	if (L.first == NULL)
+	{
+		printf("Il n'y rien dans la liste contour donc pas simplifiable");
+		return LC;
+	}
+	Cellule_Liste_Contour *celcontour = L.first;
+
+	for (int i = 0; i < L.taille; i++)
+	{
+		Tableau_Point tabcontour = sequence_points_liste_vers_tableau(celcontour->data);
+		Liste_Bezier3 c = simplification_contour_bezier3(tabcontour, 0, celcontour->data.taille - 1, dist);
+		ajouter_element_liste_Contour_Bezier3(&LC, c);
 		celcontour = celcontour->suiv;
 	}
 	return LC;
