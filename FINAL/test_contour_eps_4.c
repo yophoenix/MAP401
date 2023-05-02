@@ -9,7 +9,9 @@ int main(int argc, char** argv){
 		return 1;
 	}
 	Image I = lire_fichier_image(argv[1]);
-	Point pixel_init = trouve_pixel_init(I);
+	// le point p en 2eme argument nous servira lorsqu'il s'agira de trouver plusieurs contours
+	Point p = {0, 0};
+	Point pixel_init = trouve_pixel_init(I,p);
 	printf("Recuperation du contour de l'image test :\n");
 	// Le masque n'est pas encore utile à ce stade mais il le sera plus tard
 	Image M = creer_image(largeur_image(I), hauteur_image(I));
