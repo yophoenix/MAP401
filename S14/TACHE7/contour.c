@@ -462,7 +462,7 @@ Bezier3 approx_bezier3 (Tableau_Point tab_contour,UINT j1, UINT j2){
 	Bezier3 B;
 	B.C0 = tab_contour.tab[j1];
 	B.C3 = tab_contour.tab[j2];
-	float n = (float)(j2 - j1);
+	double n = (double)(j2 - j1);
 	if(n<3){
 		Bezier2 B2 = approx_bezier2(tab_contour, j1, j2);
 		Bezier3 B3 = conversion_bezier2_vers_3(B2);
@@ -477,9 +477,9 @@ Bezier3 approx_bezier3 (Tableau_Point tab_contour,UINT j1, UINT j2){
 	double sommey1 = 0;
 	double sommex2 = 0;
 	double sommey2 = 0;
-	for (int i=1; i < n - 1;i++){
+	for (int i=1; i <= n-1;i++){
 		double y = y_approx(i,n);
-		sommex1 = sommex1 + y*tab_contour.tab[j1 + i].x;
+		sommex1 = sommex1 + y * tab_contour.tab[j1 + i].x;
 		sommey1 = sommey1 + y * tab_contour.tab[j1 + i].y;
 		y = y_approx(n - i, n);
 		sommex2 = sommex2 + y * tab_contour.tab[j1 + i].x;
