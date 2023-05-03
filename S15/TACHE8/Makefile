@@ -37,7 +37,7 @@ INCLUDEOPTS = -I$(INCDIR)
 COMPILOPTS = -g -Wall $(INCLUDEOPTS)
 
 # liste des executables
-EXECUTABLES = test_simplification
+EXECUTABLES = test_simplification test_bezier2 test_bezier3 extraction_contour
 
 
 #############################################################################
@@ -84,13 +84,6 @@ liste_chainee.o : liste_chainee.c liste_chainee.h image.h types_macros.h
 	@echo "---------------------------------------------"
 	$(CC) -c $(COMPILOPTS) $<
 
-geometrie2d.o : geometrie2d.c geometrie2d.h
-	@echo ""
-	@echo "---------------------------------------------"
-	@echo "Compilation du module geometrie2d"
-	@echo "---------------------------------------------"
-	$(CC) -c $(COMPILOPTS) $<
-
 test_simplification.o : test_simplification.c image.h contour.h liste_chainee.h types_macros.h geometrie2d.h
 	@echo ""
 	@echo "---------------------------------------------"
@@ -98,6 +91,26 @@ test_simplification.o : test_simplification.c image.h contour.h liste_chainee.h 
 	@echo "---------------------------------------------"
 	$(CC) -c $(COMPILOPTS) $<
 
+test_bezier2.o : test_bezier2.c geometrie2d.h image.h contour.h liste_chainee.h types_macros.h
+	@echo ""
+	@echo "---------------------------------------------"
+	@echo "Compilation du module test_bezier2"
+	@echo "---------------------------------------------"
+	$(CC) -c $(COMPILOPTS) $<
+
+extraction_contour.o : extraction_contour.c image.h contour.h liste_chainee.h types_macros.h geometrie2d.h
+	@echo ""
+	@echo "---------------------------------------------"
+	@echo "Compilation du module extraction_contour"
+	@echo "---------------------------------------------"
+	$(CC) -c $(COMPILOPTS) $<
+
+test_bezier3.o : test_bezier3.c geometrie2d.h image.h contour.h liste_chainee.h types_macros.h
+	@echo ""
+	@echo "---------------------------------------------"
+	@echo "Compilation du module test_bezier3"
+	@echo "---------------------------------------------"
+	$(CC) -c $(COMPILOPTS) $<
 
 ########################################################
 # regles explicites de creation des executables
@@ -109,6 +122,26 @@ test_simplification : test_simplification.o liste_chainee.o contour.o image.o  g
 	@echo "---------------------------------------------"
 	$(CC) $^ $(LDOPTS) -o $@
 
+test_bezier2 : test_bezier2.o geometrie2d.o contour.o image.o liste_chainee.o
+	@echo ""
+	@echo "---------------------------------------------"
+	@echo "Creation de l'executable "$@
+	@echo "---------------------------------------------"
+	$(CC) $^ $(LDOPTS) -o $@
+
+test_bezier3 : test_bezier3.o geometrie2d.o contour.o image.o liste_chainee.o
+	@echo ""
+	@echo "---------------------------------------------"
+	@echo "Creation de l'executable "$@
+	@echo "---------------------------------------------"
+	$(CC) $^ $(LDOPTS) -o $@
+
+extraction_contour : extraction_contour.o contour.o image.o liste_chainee.o geometrie2d.o
+	@echo ""
+	@echo "---------------------------------------------"
+	@echo "Creation de l'executable "$@
+	@echo "---------------------------------------------"
+	$(CC) $^ $(LDOPTS) -o $@
 
 # regle pour "nettoyer" le r�pertoire
 clean:

@@ -62,3 +62,41 @@ double distance_segment(Point a, Point b, Point p){
     Point q = {a.x + lambda * (b.x - a.x), a.y + lambda * (b.y - a.y)};
     return distance_point(q, p);
 }
+
+Point calcul_point_bezier2(Bezier2 B, double t){
+	Point C;
+	C.x = B.C0.x * pow((1 - t),2) + B.C1.x * 2*t * (1 - t) + B.C2.x * pow(t,2);
+	C.y = B.C0.y * pow((1 - t),2) + B.C1.y * 2*t * (1 - t) + B.C2.y * pow(t,2);
+	return C;
+}
+
+Point calcul_point_bezier3(Bezier3 B, double t){
+	Point C;
+	C.x = B.C0.x * pow((1 - t),3) + B.C1.x * 3*t * pow((1 - t),2) + B.C2.x * 3*pow(t,2) * (1 - t) + B.C3.x * pow(t,3);
+	C.y = B.C0.y * pow((1 - t),3) + B.C1.y * 3*t * pow((1 - t),2) + B.C2.y * 3*pow(t,2) * (1 - t) + B.C3.y * pow(t,3);
+	return C;
+}
+
+Bezier3 conversion_bezier2_vers_3(Bezier2 B){
+	Bezier3 Bc;
+	Bc.C0 = B.C0;
+	Bc.C1.x = (B.C0.x + 2*B.C1.x) / 3;
+	Bc.C1.y = (B.C0.y + 2*B.C1.y) / 3;
+	Bc.C2.x = (B.C2.x + 2*B.C1.x) / 3;
+	Bc.C2.y = (B.C2.y + 2*B.C1.y) / 3;
+	Bc.C3 = B.C2;
+	return Bc;
+}
+
+double distance_bezier2(Point p, Bezier2 B, double ti){
+    Point C = calcul_point_bezier2(B, ti);
+    double dist = distance_point(p, C);
+    return dist;
+}
+
+double distance_bezier3(Point p, Bezier3 B, double ti)
+{
+    Point C = calcul_point_bezier3(B, ti);
+    double dist = distance_point(p, C);
+    return dist;
+}

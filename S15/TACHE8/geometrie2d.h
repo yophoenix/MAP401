@@ -11,6 +11,14 @@ typedef struct Point_{
     double x, y; /* coordonnes */
 } Point;
 
+typedef struct Bezier2_{
+	Point C0, C1, C2;  
+} Bezier2;
+
+typedef struct Bezier3_{
+	Point C0, C1, C2, C3;
+} Bezier3;
+
 /* créer un point à partir de 2 coordonnés*/
 Point set_point(double x, double y);
 
@@ -39,5 +47,19 @@ double norme(Vecteur v1);
 double distance_point(Point p1, Point p2);
 
 double distance_segment(Point a, Point b, Point p);
+
+/* calcul du point C(t) d'une Bézier de degré 2, pour une valeur de t (entre 0 et 1) */
+Point calcul_point_bezier2(Bezier2 B, double t);
+
+/* calcul du point C(t) d'une Bézier de degré 3, pour une valeur de t (entre 0 et 1) */
+Point calcul_point_bezier3(Bezier3 B, double t);
+
+/* conversion d'une Bézier de degré 2 en Bézier de degré 3 */
+Bezier3 conversion_bezier2_vers_3(Bezier2 B);
+
+/* distance entre une courbe de bezier2 et un point */
+double distance_bezier2(Point p, Bezier2 B, double ti);
+
+double distance_bezier3(Point p, Bezier3 B, double ti);
 
 #endif
