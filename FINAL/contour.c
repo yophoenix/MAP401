@@ -407,7 +407,7 @@ Liste_Contour extraire_les_contours(Image I)
 	return liste;
 }
 
-Contour simplification_contour(Tableau_Point tabcontour,UINT j1, UINT j2,UINT dist){
+Contour simplification_contour(Tableau_Point tabcontour,UINT j1, UINT j2,double dist){
 	Liste_Point L = creer_liste_Point_vide();
 	double dmax = 0;
 	UINT k = j1;
@@ -431,7 +431,7 @@ Contour simplification_contour(Tableau_Point tabcontour,UINT j1, UINT j2,UINT di
 	return L;
 }
 
-Liste_Contour simplification_contours(Liste_Contour L,UINT dist){
+Liste_Contour simplification_contours(Liste_Contour L,double dist){
 	if (L.first == NULL)
 	{
 		printf("Il n'y rien dans la liste contour donc pas simplifiable");
@@ -517,7 +517,7 @@ Bezier3 approx_bezier3 (Tableau_Point tab_contour,UINT j1, UINT j2){
 	return B;
 }
 
-Liste_Bezier2 simplification_contour_bezier2(Tableau_Point tabcontour, UINT j1, UINT j2, UINT dist)
+Liste_Bezier2 simplification_contour_bezier2(Tableau_Point tabcontour, UINT j1, UINT j2, double dist)
 {
 	UINT n = j2 - j1;
 	Liste_Bezier2 L = creer_liste_Bezier2_vide();
@@ -535,7 +535,7 @@ Liste_Bezier2 simplification_contour_bezier2(Tableau_Point tabcontour, UINT j1, 
 			k = j;
 		}
 	}
-	if (dmax <= (float)dist)
+	if (dmax <= dist)
 	{
 		ajouter_element_liste_Bezier2(&L, B);
 	}
@@ -548,7 +548,7 @@ Liste_Bezier2 simplification_contour_bezier2(Tableau_Point tabcontour, UINT j1, 
 	return L;
 }
 
-Liste_Contour_Bezier2 simplification_contours_bezier2(Liste_Contour L, UINT dist)
+Liste_Contour_Bezier2 simplification_contours_bezier2(Liste_Contour L, double dist)
 {
 	Liste_Contour_Bezier2 LC = creer_liste_Contour_Bezier2_vide();
 	if (L.first == NULL)
@@ -568,7 +568,7 @@ Liste_Contour_Bezier2 simplification_contours_bezier2(Liste_Contour L, UINT dist
 	return LC;
 }
 
-Liste_Bezier3 simplification_contour_bezier3(Tableau_Point tabcontour, UINT j1, UINT j2, UINT dist)
+Liste_Bezier3 simplification_contour_bezier3(Tableau_Point tabcontour, UINT j1, UINT j2, double dist)
 {
 	UINT n = j2 - j1;
 	Liste_Bezier3 L = creer_liste_Bezier3_vide();
@@ -586,7 +586,7 @@ Liste_Bezier3 simplification_contour_bezier3(Tableau_Point tabcontour, UINT j1, 
 			k = j;
 		}
 	}
-	if (dmax <= (float)dist)
+	if (dmax <= dist)
 	{
 		ajouter_element_liste_Bezier3(&L, B);
 	}
@@ -599,7 +599,7 @@ Liste_Bezier3 simplification_contour_bezier3(Tableau_Point tabcontour, UINT j1, 
 	return L;
 }
 
-Liste_Contour_Bezier3 simplification_contours_bezier3(Liste_Contour L, UINT dist)
+Liste_Contour_Bezier3 simplification_contours_bezier3(Liste_Contour L, double dist)
 {
 	Liste_Contour_Bezier3 LC = creer_liste_Contour_Bezier3_vide();
 	if (L.first == NULL)

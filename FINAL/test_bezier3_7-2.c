@@ -10,8 +10,8 @@ int main(int argc, char **argv)
         return 1;
     }
     Image I = lire_fichier_image(argv[1]);
-    UINT dist;
-    sscanf(argv[2], "%d", &dist);
+    double dist;
+    sscanf(argv[2], "%lf", &dist);
 
     printf("nom du fichier: %s\n", argv[1]);
     UINT h = hauteur_image(I);
