@@ -49,9 +49,9 @@ Image init_masque(Image M);
 
 Liste_Contour extraire_les_contours(Image I);
 
-Contour simplification_contour(Tableau_Point tabcontour, UINT j1, UINT j2, UINT dist);
+Contour simplification_contour(Tableau_Point tabcontour, UINT j1, UINT j2, double dist);
 
-Liste_Contour simplification_contours(Liste_Contour L, UINT dist);
+Liste_Contour simplification_contours(Liste_Contour L, double dist);
 
 Bezier2 approx_bezier2(Tableau_Point tab_contour, UINT j1, UINT j2);
 
@@ -59,12 +59,12 @@ double y_approx(int i, float n);
 
 Bezier3 approx_bezier3(Tableau_Point tab_contour, UINT j1, UINT j2);
 
-Liste_Bezier2 simplification_contour_bezier2(Tableau_Point tabcontour, UINT j1, UINT j2, UINT dist);
+Liste_Bezier2 simplification_contour_bezier2(Tableau_Point tabcontour, UINT j1, UINT j2, double dist);
 
-Liste_Contour_Bezier2 simplification_contours_bezier2(Liste_Contour L, UINT dist);
+Liste_Contour_Bezier2 simplification_contours_bezier2(Liste_Contour L, double dist);
 
-Liste_Bezier3 simplification_contour_bezier3(Tableau_Point tabcontour, UINT j1, UINT j2, UINT dist);
+Liste_Bezier3 simplification_contour_bezier3(Tableau_Point tabcontour, UINT j1, UINT j2, double dist);
 
-Liste_Contour_Bezier3 simplification_contours_bezier3(Liste_Contour L, UINT dist);
+Liste_Contour_Bezier3 simplification_contours_bezier3(Liste_Contour L, double dist);
 
 #endif
