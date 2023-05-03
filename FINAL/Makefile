@@ -37,7 +37,7 @@ INCLUDEOPTS = -I$(INCDIR)
 COMPILOPTS = -g -Wall $(INCLUDEOPTS)
 
 # liste des executables
-EXECUTABLES = test_image_1 test_geometrie2d_2 test_contour_robot_3-1 test_contour_txt_3-2 test_contour_eps_4 test_contours_5-1 test_contours_eps_5-2 test_point_segment_6-1 test_simplification_6-2 test_geometrie_bezier_7-0 test_approx_bezier2_7-1 test_bezier2_7-1 test_approx_bezier3_7-2 test_bezier3_7-2
+EXECUTABLES = test_image_1 test_geometrie2d_2 test_contour_robot_3-1 test_contour_txt_3-2 test_contour_eps_4 test_contours_5-1 test_contours_eps_5-2 test_point_segment_6-1 test_simplification_6-2 test_geometrie_bezier_7-0 test_approx_bezier2_7-1 test_bezier2_7-1 test_approx_bezier3_7-2 test_bezier3_7-2 extraction_contour test_simplification_8 test_bezier2_8 test_bezier3_8
 
 
 
@@ -190,6 +190,33 @@ test_bezier3_7-2.o : test_bezier3_7-2.c geometrie2d.h image.h contour.h liste_ch
 	@echo "---------------------------------------------"
 	$(CC) -c $(COMPILOPTS) $<
 
+test_bezier2_8.o : test_bezier2_8.c geometrie2d.h image.h contour.h liste_chainee.h types_macros.h
+	@echo ""
+	@echo "---------------------------------------------"
+	@echo "Compilation du module test_bezier2_8"
+	@echo "---------------------------------------------"
+	$(CC) -c $(COMPILOPTS) $<
+
+test_bezier3_8.o : test_bezier3_8.c geometrie2d.h image.h contour.h liste_chainee.h types_macros.h
+	@echo ""
+	@echo "---------------------------------------------"
+	@echo "Compilation du module test_bezier3_8"
+	@echo "---------------------------------------------"
+	$(CC) -c $(COMPILOPTS) $<
+
+test_simplification_8.o : test_simplification_8.c image.h contour.h liste_chainee.h types_macros.h geometrie2d.h
+	@echo ""
+	@echo "---------------------------------------------"
+	@echo "Compilation du module test_simplification_6-2"
+	@echo "---------------------------------------------"
+	$(CC) -c $(COMPILOPTS) $<
+
+extraction_contour.o : extraction_contour.c image.h contour.h geometrie2d.h types_macros.h liste_chainee.h
+	@echo ""
+	@echo "---------------------------------------------"
+	@echo "Compilation du module extraction_contour"
+	@echo "---------------------------------------------"
+	$(CC) -c $(COMPILOPTS) $<
 
 ########################################################
 # regles explicites de creation des executables
@@ -278,6 +305,13 @@ test_bezier2_7-1 : test_bezier2_7-1.o geometrie2d.o contour.o image.o liste_chai
 	@echo "---------------------------------------------"
 	$(CC) $^ $(LDOPTS) -o $@
 
+test_bezier2_8 : test_bezier2_8.o geometrie2d.o contour.o image.o liste_chainee.o
+	@echo ""
+	@echo "---------------------------------------------"
+	@echo "Creation de l'executable "$@
+	@echo "---------------------------------------------"
+	$(CC) $^ $(LDOPTS) -o $@
+
 test_approx_bezier3_7-2 : test_approx_bezier3_7-2.o geometrie2d.o contour.o image.o liste_chainee.o
 	@echo ""
 	@echo "---------------------------------------------"
@@ -286,6 +320,27 @@ test_approx_bezier3_7-2 : test_approx_bezier3_7-2.o geometrie2d.o contour.o imag
 	$(CC) $^ $(LDOPTS) -o $@
 
 test_bezier3_7-2 : test_bezier3_7-2.o geometrie2d.o contour.o image.o liste_chainee.o
+	@echo ""
+	@echo "---------------------------------------------"
+	@echo "Creation de l'executable "$@
+	@echo "---------------------------------------------"
+	$(CC) $^ $(LDOPTS) -o $@
+
+test_bezier3_8 : test_bezier3_8.o geometrie2d.o contour.o image.o liste_chainee.o
+	@echo ""
+	@echo "---------------------------------------------"
+	@echo "Creation de l'executable "$@
+	@echo "---------------------------------------------"
+	$(CC) $^ $(LDOPTS) -o $@
+
+test_simplification_8 : test_simplification_8.o geometrie2d.o contour.o image.o liste_chainee.o
+	@echo ""
+	@echo "---------------------------------------------"
+	@echo "Creation de l'executable "$@
+	@echo "---------------------------------------------"
+	$(CC) $^ $(LDOPTS) -o $@
+
+extraction_contour : extraction_contour.o contour.o image.o liste_chainee.o geometrie2d.o
 	@echo ""
 	@echo "---------------------------------------------"
 	@echo "Creation de l'executable "$@
