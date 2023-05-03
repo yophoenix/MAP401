@@ -44,6 +44,6 @@ int main(int argc, char* argv[]){
     printf("le produit scalaire du vecteur 1 et 2 est %lf\n", scal);
     double nor = norme(v1);
     printf("la norme du vecteur 1 est %lf\n", nor);
-    double dist = distance(p2, p4);
+    double dist = distance_point(p2, p4);
         printf("la distance entre p2 et p4 est %lf\n",dist);
 }

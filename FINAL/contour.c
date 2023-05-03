@@ -351,7 +351,7 @@ char *modifier_extension(char *nom, char *extension)
 	return nom_fichier;
 }
 
-/*char *stroke_ou_fill(char* nom,int fill){
+char *stroke_ou_fill(char* nom,int fill){
   int x=0;
   while (nom[x]!='.'){
   x++;
@@ -366,7 +366,7 @@ char *modifier_extension(char *nom, char *extension)
   nom_fichier=strcat(nom_fichier,"-stroke.");
   }
   return nom_fichier;
-  }*/
+  }
 
 Image init_masque(Image I)
 {

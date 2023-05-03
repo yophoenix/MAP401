@@ -1,11 +1,8 @@
 #include <stdio.h>
 #include "contour.h"
 #include "image.h"
-
-int main(int argc, char **argv)
-{
-	if (argc < 3)
-	{
+int main(int argc, char** argv){
+	if (argc < 3){
 		printf("ERREUR. Usage : <nom fichier image> <distance seuil>\n");
 		return 1;
 	}
@@ -25,8 +22,9 @@ int main(int argc, char **argv)
 	Liste_Contour LC = simplification_contours(L, dist);
 	printf("image simplifiée:\n");
 	affiche_liste_contour(LC);
-
-	char *nom_fichier = modifier_extension(argv[1], "eps");
+	
+	char *nom_fichier=modifier_extension(argv[1],"eps");
 	ecrire_image_eps(LC, nom_fichier, h, l);
 	return 0;
 }
+

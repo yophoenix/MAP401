@@ -37,7 +37,8 @@ INCLUDEOPTS = -I$(INCDIR)
 COMPILOPTS = -g -Wall $(INCLUDEOPTS)
 
 # liste des executables
-EXECUTABLES = test_simplification test_geobezier test_approx_bezier2 test_bezier2 test_approx_bezier3 test_bezier3
+EXECUTABLES = test_image_1 test_geometrie2d_2 test_contour_robot_3-1 test_contour_txt_3-2 test_contour_eps_4 test_contours_5-1 test_contours_eps_5-2 test_point_segment_6-1 test_simplification_6-2 test_geometrie_bezier_7-0 test_approx_bezier2_7-1 test_bezier2_7-1 test_approx_bezier3_7-2 test_bezier3_7-2
+
 
 
 #############################################################################
@@ -84,92 +85,214 @@ liste_chainee.o : liste_chainee.c liste_chainee.h image.h types_macros.h
 	@echo "---------------------------------------------"
 	$(CC) -c $(COMPILOPTS) $<
 
-test_simplification.o : test_simplification.c image.h contour.h liste_chainee.h types_macros.h geometrie2d.h
+geometrie2d.o : geometrie2d.c geometrie2d.h types_macros.h
 	@echo ""
 	@echo "---------------------------------------------"
-	@echo "Compilation du module test_simplification"
+	@echo "Compilation du module geometrie2d"
 	@echo "---------------------------------------------"
 	$(CC) -c $(COMPILOPTS) $<
 
-test_geobezier.o : test_geobezier.c geometrie2d.h 
+test_image_1.o : test_image_1.c image.h types_macros.h
 	@echo ""
 	@echo "---------------------------------------------"
-	@echo "Compilation du module test_geobezier"
+	@echo "Compilation du module test_image_1"
 	@echo "---------------------------------------------"
 	$(CC) -c $(COMPILOPTS) $<
 
-test_approx_bezier2.o : test_approx_bezier2.c geometrie2d.h image.h contour.h liste_chainee.h types_macros.h
+test_geometrie2d_2.o : test_geometrie2d_2.c geometrie2d.h types_macros.h
 	@echo ""
 	@echo "---------------------------------------------"
-	@echo "Compilation du module test_aprox_bezier2"
+	@echo "Compilation du module test_geometrie2d_2"
 	@echo "---------------------------------------------"
 	$(CC) -c $(COMPILOPTS) $<
 
-test_bezier2.o : test_bezier2.c geometrie2d.h image.h contour.h liste_chainee.h types_macros.h
+test_contour_robot_3-1.o : test_contour_robot_3-1.c image.h contour.h liste_chainee.h types_macros.h geometrie2d.h
 	@echo ""
 	@echo "---------------------------------------------"
-	@echo "Compilation du module test_bezier2"
+	@echo "Compilation du module test_contour_robot_3-1"
 	@echo "---------------------------------------------"
 	$(CC) -c $(COMPILOPTS) $<
 
-test_approx_bezier3.o : test_approx_bezier3.c geometrie2d.h image.h contour.h liste_chainee.h types_macros.h
+test_contour_txt_3-2.o : test_contour_txt_3-2.c image.h contour.h liste_chainee.h types_macros.h geometrie2d.h
 	@echo ""
 	@echo "---------------------------------------------"
-	@echo "Compilation du module test_aprox_bezier3"
+	@echo "Compilation du module test_contour_txt_3-2"
 	@echo "---------------------------------------------"
 	$(CC) -c $(COMPILOPTS) $<
 
-test_bezier3.o : test_bezier3.c geometrie2d.h image.h contour.h liste_chainee.h types_macros.h
+test_contour_eps_4.o : test_contour_eps_4.c image.h contour.h liste_chainee.h types_macros.h geometrie2d.h	
 	@echo ""
 	@echo "---------------------------------------------"
-	@echo "Compilation du module test_bezier3"
+	@echo "Compilation du module test_contour_eps_4"
 	@echo "---------------------------------------------"
 	$(CC) -c $(COMPILOPTS) $<
+
+test_contours_5-1.o : test_contours_5-1.c image.h contour.h liste_chainee.h types_macros.h geometrie2d.h
+	@echo ""
+	@echo "---------------------------------------------"
+	@echo "Compilation du module test_contours_5-1"
+	@echo "---------------------------------------------"
+	$(CC) -c $(COMPILOPTS) $<
+
+test_contours_eps_5-2.o : test_contours_eps_5-2.c image.h contour.h liste_chainee.h types_macros.h geometrie2d.h
+	@echo ""
+	@echo "---------------------------------------------"
+	@echo "Compilation du module test_contours_eps_5-2"
+	@echo "---------------------------------------------"
+	$(CC) -c $(COMPILOPTS) $<
+
+test_point_segment_6-1.o : test_point_segment_6-1.c image.h contour.h liste_chainee.h types_macros.h geometrie2d.h
+	@echo ""
+	@echo "---------------------------------------------"
+	@echo "Compilation du module test_point_segment_6-1"
+	@echo "---------------------------------------------"
+	$(CC) -c $(COMPILOPTS) $<
+
+test_simplification_6-2.o : test_simplification_6-2.c image.h contour.h liste_chainee.h types_macros.h geometrie2d.h
+	@echo ""
+	@echo "---------------------------------------------"
+	@echo "Compilation du module test_simplification_6-2"
+	@echo "---------------------------------------------"
+	$(CC) -c $(COMPILOPTS) $<
+
+test_geometrie_bezier_7-0.o : test_geometrie_bezier_7-0.c geometrie2d.h types_macros.h
+	@echo ""
+	@echo "---------------------------------------------"
+	@echo "Compilation du module test_geometrie_bezier_7-0"
+	@echo "---------------------------------------------"
+	$(CC) -c $(COMPILOPTS) $<
+
+test_approx_bezier_7-1.o : test_approx_bezier_7-1.c geometrie2d.h image.h contour.h liste_chainee.h types_macros.h
+	@echo ""
+	@echo "---------------------------------------------"
+	@echo "Compilation du module test_approx_bezier_7-1"
+	@echo "---------------------------------------------"
+	$(CC) -c $(COMPILOPTS) $<
+
+test_bezier2_7-1.o : test_bezier2_7-1.c geometrie2d.h image.h contour.h liste_chainee.h types_macros.h
+	@echo ""
+	@echo "---------------------------------------------"
+	@echo "Compilation du module test_bezier2_7-1"
+	@echo "---------------------------------------------"
+	$(CC) -c $(COMPILOPTS) $<
+
+test_approx_bezier3_7-2.o : test_approx_bezier3_7-2.c geometrie2d.h image.h contour.h liste_chainee.h types_macros.h
+	@echo ""
+	@echo "---------------------------------------------"
+	@echo "Compilation du module test_approx_bezier3_7-2"
+	@echo "---------------------------------------------"
+	$(CC) -c $(COMPILOPTS) $<
+
+test_bezier3_7-2.o : test_bezier3_7-2.c geometrie2d.h image.h contour.h liste_chainee.h types_macros.h
+	@echo ""
+	@echo "---------------------------------------------"
+	@echo "Compilation du module test_bezier3_7-2"
+	@echo "---------------------------------------------"
+	$(CC) -c $(COMPILOPTS) $<
+
 
 ########################################################
 # regles explicites de creation des executables
 
-test_simplification : test_simplification.o liste_chainee.o contour.o image.o  geometrie2d.o
+test_image_1 : test_image_1.o image.o
+	@echo ""
+	@echo "---------------------------------------------"
+	@echo "Creation de l'executable "$@
+	@echo "---------------------------------------------"
+	$(CC) $^ $(LDOPTS) -o $@
+	
+test_geometrie2d_2 : test_geometrie2d_2.o geometrie2d.o image.o contour.o liste_chainee.o
 	@echo ""
 	@echo "---------------------------------------------"
 	@echo "Creation de l'executable "$@
 	@echo "---------------------------------------------"
 	$(CC) $^ $(LDOPTS) -o $@
 
-test_geobezier : test_geobezier.o geometrie2d.o
+test_contour_robot_3-1 : test_contour_robot_3-1.o image.o contour.o liste_chainee.o geometrie2d.o
 	@echo ""
 	@echo "---------------------------------------------"
 	@echo "Creation de l'executable "$@
 	@echo "---------------------------------------------"
 	$(CC) $^ $(LDOPTS) -o $@
 
-test_approx_bezier2 : test_approx_bezier2.o geometrie2d.o contour.o image.o liste_chainee.o
+test_contour_txt_3-2 : test_contour_txt_3-2.o image.o contour.o liste_chainee.o geometrie2d.o
 	@echo ""
 	@echo "---------------------------------------------"
 	@echo "Creation de l'executable "$@
 	@echo "---------------------------------------------"
 	$(CC) $^ $(LDOPTS) -o $@
 
-test_bezier2 : test_bezier2.o geometrie2d.o contour.o image.o liste_chainee.o
+test_contour_eps_4 : test_contour_eps_4.o image.o contour.o liste_chainee.o geometrie2d.o
 	@echo ""
 	@echo "---------------------------------------------"
 	@echo "Creation de l'executable "$@
 	@echo "---------------------------------------------"
 	$(CC) $^ $(LDOPTS) -o $@
 
-test_approx_bezier3 : test_approx_bezier3.o geometrie2d.o contour.o image.o liste_chainee.o
+test_contours_5-1 : test_contours_5-1.o image.o contour.o liste_chainee.o geometrie2d.o
 	@echo ""
 	@echo "---------------------------------------------"
 	@echo "Creation de l'executable "$@
 	@echo "---------------------------------------------"
 	$(CC) $^ $(LDOPTS) -o $@
 
-test_bezier3 : test_bezier3.o geometrie2d.o contour.o image.o liste_chainee.o
+test_contours_eps_5-2 : test_contours_eps_5-2.o image.o contour.o liste_chainee.o geometrie2d.o
 	@echo ""
 	@echo "---------------------------------------------"
 	@echo "Creation de l'executable "$@
 	@echo "---------------------------------------------"
 	$(CC) $^ $(LDOPTS) -o $@
+
+test_point_segment_6-1 : test_point_segment_6-1.o geometrie2d.o
+	@echo ""
+	@echo "---------------------------------------------"
+	@echo "Creation de l'executable "$@
+	@echo "---------------------------------------------"
+	$(CC) $^ $(LDOPTS) -o $@
+
+test_simplification_6-2 : test_simplification_6-2.o geometrie2d.o contour.o image.o liste_chainee.o
+	@echo ""
+	@echo "---------------------------------------------"
+	@echo "Creation de l'executable "$@
+	@echo "---------------------------------------------"
+	$(CC) $^ $(LDOPTS) -o $@
+
+test_geometrie_bezier_7-0 : test_geometrie_bezier_7-0.o geometrie2d.o
+	@echo ""
+	@echo "---------------------------------------------"
+	@echo "Creation de l'executable "$@
+	@echo "---------------------------------------------"
+	$(CC) $^ $(LDOPTS) -o $@
+
+test_approx_bezier2_7-1 : test_approx_bezier2_7-1.o geometrie2d.o contour.o image.o liste_chainee.o
+	@echo ""
+	@echo "---------------------------------------------"
+	@echo "Creation de l'executable "$@
+	@echo "---------------------------------------------"
+	$(CC) $^ $(LDOPTS) -o $@
+
+test_bezier2_7-1 : test_bezier2_7-1.o geometrie2d.o contour.o image.o liste_chainee.o
+	@echo ""
+	@echo "---------------------------------------------"
+	@echo "Creation de l'executable "$@
+	@echo "---------------------------------------------"
+	$(CC) $^ $(LDOPTS) -o $@
+
+test_approx_bezier3_7-2 : test_approx_bezier3_7-2.o geometrie2d.o contour.o image.o liste_chainee.o
+	@echo ""
+	@echo "---------------------------------------------"
+	@echo "Creation de l'executable "$@
+	@echo "---------------------------------------------"
+	$(CC) $^ $(LDOPTS) -o $@
+
+test_bezier3_7-2 : test_bezier3_7-2.o geometrie2d.o contour.o image.o liste_chainee.o
+	@echo ""
+	@echo "---------------------------------------------"
+	@echo "Creation de l'executable "$@
+	@echo "---------------------------------------------"
+	$(CC) $^ $(LDOPTS) -o $@
+
+########################################################
 
 # regle pour "nettoyer" le r�pertoire
 clean:

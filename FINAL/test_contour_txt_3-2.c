@@ -20,7 +20,10 @@ int main(int argc, char** argv){
 	printf("largeur image: %u\n", largeur_image(I));
 	printf("Nombre de segments composant le contour :\n");
 	affiche_contour(c);
-	printf("Ecriture du contour dans le fichier texte : %s\n",argv[2]);
-	ecrire_contour_fichier(c,argv[2]);
+	char *nom_fichier = modifier_extension(argv[1], "txt");
+	printf("Ecriture du contour dans le fichier texte : %s\n",nom_fichier);
+	FILE* f = fopen(nom_fichier, "w");
+	ecrire_contour_fichier(c,f);
+	fclose(f);
 	return 0;
 }

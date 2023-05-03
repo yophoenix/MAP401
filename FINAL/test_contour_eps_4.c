@@ -23,7 +23,9 @@ int main(int argc, char** argv){
 	affiche_contour(c);
 	char* nom_fichier=modifier_extension(argv[1],"txt");
 	printf("Ecriture du contour dans le fichier texte : %s\n",nom_fichier);
-	ecrire_contour_fichier(c,nom_fichier);
+	FILE* f = fopen(nom_fichier, "w");
+	ecrire_contour_fichier(c,f);
+	fclose(f);
 	int fill;
 	sscanf(argv[2],"%d",&fill);
 	nom_fichier=stroke_ou_fill(nom_fichier,fill);
