@@ -1,10 +1,11 @@
 #include <stdio.h>
 #include "contour.h"
 #include "image.h"
+#include "string.h"
 
 int main(int argc, char** argv){
-	if (argc < 3){
-		printf("ERREUR. Usage : <nom fichier image> <nom fichier contour>\n");
+	if (argc < 2){
+		printf("ERREUR. Usage : <nom fichier image> \n");
 		return 1;
 	}
 	Image I = lire_fichier_image(argv[1]);
@@ -20,7 +21,8 @@ int main(int argc, char** argv){
 	printf("largeur image: %u\n", largeur_image(I));
 	printf("Nombre de segments composant le contour :\n");
 	affiche_contour(c);
-	char *nom_fichier = modifier_extension(argv[1], "txt");
+	char nom_fichier[strlen(argv[1]) + 30];
+	modifier_extension(nom_fichier, argv[1], ".txt", "", "");
 	printf("Ecriture du contour dans le fichier texte : %s\n",nom_fichier);
 	FILE* f = fopen(nom_fichier, "w");
 	ecrire_contour_fichier(c,f);

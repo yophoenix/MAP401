@@ -330,43 +330,20 @@ void ecrire_image_eps_bezier3(Liste_Contour_Bezier3 L, char *nom_fichier, UINT h
 	fclose(f);
 }
 
-char *modifier_extension(char *nom, char *extension)
+void modifier_extension(char *nom_fichier, char *nom, char *extension, char *type, char *d)
 {
-	char *nom_fichier = nom;
-	int x = 0;
-	if (nom_fichier[x] == '.' && nom_fichier[x + 1] == '/')
-	{
-		x += 2;
+	strcat(nom_fichier, nom);
+	nom_fichier[strlen(nom) - 4] = '\0';
+	if (strcmp(type, "") != 0){
+		strcat(nom_fichier, "_");
+		strcat(nom_fichier, type);
 	}
-	while (nom_fichier[x] != '.')
-	{
-		x++;
+	if (strcmp(d, "") != 0){
+		strcat(nom_fichier, "_");
+		strcat(nom_fichier, d);
 	}
-	x++;
-	nom_fichier[x] = extension[0];
-	x++;
-	nom_fichier[x] = extension[1];
-	x++;
-	nom_fichier[x] = extension[2];
-	return nom_fichier;
+	strcat(nom_fichier, extension);
 }
-
-char *stroke_ou_fill(char* nom,int fill){
-  int x=0;
-  while (nom[x]!='.'){
-  x++;
-  }
-  char* nom_fichier = calloc(x + 15, sizeof(char));
-  for(int i=0;i<x;i++){
-  nom_fichier[i]=nom[i];
-  }
-  if (fill){
-  nom_fichier=strcat(nom_fichier,"-fill.");
-  }else{
-  nom_fichier=strcat(nom_fichier,"-stroke.");
-  }
-  return nom_fichier;
-  }
 
 Image init_masque(Image I)
 {

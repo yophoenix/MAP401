@@ -6,7 +6,7 @@
 
 int main(int argc, char* argv[]){
     if(argc<2){
-        printf("Erreur d'arguements, usage: test_image <nom du fichier image>");
+        printf("Erreur d'arguements, usage: test_image <nom du fichier image>\n");
         return 1;
     }
     Image I=lire_fichier_image(argv[1]);

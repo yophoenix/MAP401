@@ -45,9 +45,7 @@ void ecrire_image_eps_bezier2(Liste_Contour_Bezier2 L, char *nom_fichier, UINT h
 
 void ecrire_image_eps_bezier3(Liste_Contour_Bezier3 L, char *nom_fichier, UINT h, UINT l);
 
-char *modifier_extension(char *nom, char *extension);
-
-char *stroke_ou_fill(char* nom,int fill);
+void modifier_extension(char *nom_fichier, char *nom, char *extension, char *type, char *d);
 
 Image init_masque(Image M);
 

@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include "contour.h"
 #include "image.h"
+#include "string.h"
 
 int main(int argc, char **argv)
 {
@@ -26,7 +27,8 @@ int main(int argc, char **argv)
     printf("image simplifiée:\n");
     affiche_liste_Bezier3(LC);
 
-    char *nom_fichier = modifier_extension(argv[1], "eps");
+    char nom_fichier[strlen(argv[1]) + 30];
+    modifier_extension(nom_fichier, argv[1], ".eps", "bezier3", argv[2]);
     ecrire_image_eps_bezier3(LC, nom_fichier, h, l);
     return 0;
 }

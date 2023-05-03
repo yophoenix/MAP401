@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include "contour.h"
 #include "image.h"
-
+#include "string.h"
 
 int main(int argc, char** argv){
 	if (argc < 2){
@@ -17,7 +17,8 @@ int main(int argc, char** argv){
 	printf("largeur image: %u\n", l);
 	Liste_Contour L = extraire_les_contours(I);
 	affiche_liste_contour(L);
-	char *nom_fichier=modifier_extension(argv[1],"eps");
+	char nom_fichier[strlen(argv[1]) + 30];
+	modifier_extension(nom_fichier, argv[1], ".eps", "", "");
 	printf("Ecriture du contour dans le fichier eps : %s\n",nom_fichier);
 	ecrire_image_eps(L,nom_fichier,h,l);
 	return 0;

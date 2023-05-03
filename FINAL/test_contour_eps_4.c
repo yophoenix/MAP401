@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include "contour.h"
 #include "image.h"
-
+#include "string.h"
 
 int main(int argc, char** argv){
 	if (argc < 3){
@@ -21,16 +21,26 @@ int main(int argc, char** argv){
 	printf("largeur image: %u\n", largeur_image(I));
 	printf("Nombre de segments composant le contour :\n");
 	affiche_contour(c);
-	char* nom_fichier=modifier_extension(argv[1],"txt");
+	char nom_fichier[strlen(argv[1]) + 30];
+	char nom_fichier2[strlen(argv[1]) + 30];
+	int fill;
+	sscanf(argv[2], "%d", &fill);
+	if(fill==1){
+		modifier_extension(nom_fichier, argv[1], ".txt", "fill","");
+		modifier_extension(nom_fichier2, argv[1], ".eps", "fill", "");
+	}
+	if(fill==0){
+		modifier_extension(nom_fichier, argv[1], ".txt", "stroke", "");
+		modifier_extension(nom_fichier2, argv[1], ".eps", "stroke", "");
+	}
 	printf("Ecriture du contour dans le fichier texte : %s\n",nom_fichier);
 	FILE* f = fopen(nom_fichier, "w");
 	ecrire_contour_fichier(c,f);
 	fclose(f);
-	int fill;
-	sscanf(argv[2],"%d",&fill);
-	nom_fichier=stroke_ou_fill(nom_fichier,fill);
-	nom_fichier=modifier_extension(nom_fichier,"eps");
-	printf("Ecriture du contour dans le fichier eps : %s\n",nom_fichier);
-	ecrire_contour_eps(c,nom_fichier,I,fill);
+
+
+	printf("Ecriture du contour dans le fichier eps : %s\n",nom_fichier2);
+
+	ecrire_contour_eps(c,nom_fichier2,I,fill);
 	return 0;
 }
