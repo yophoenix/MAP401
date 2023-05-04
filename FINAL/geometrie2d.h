@@ -3,13 +3,14 @@
 
 #include "types_macros.h"
 
+typedef struct Point_
+{
+    double x, y; /* coordonnes */
+} Point;
+
 typedef struct Vecteur_{
     double x, y; /* coordonnes */
 } Vecteur;
-
-typedef struct Point_{
-    double x, y; /* coordonnes */
-} Point;
 
 typedef struct Bezier2_{
 	Point C0, C1, C2;  
@@ -31,11 +32,11 @@ Vecteur vect_bipoint(Point A, Point B);
 /* addition de 2 vecteurs*/
 Vecteur addition_vect(Vecteur v1, Vecteur v2);
 
-/*multiplication de vecteur par un scalaire*/
-Vecteur multiply_vect(Vecteur v1, double a);
-
 /*multiplication d'un point par un scalaire*/
 Point multiply_point(Point p1, double a);
+
+/*multiplication de vecteur par un scalaire*/
+Vecteur multiply_vect(Vecteur v1, double a);
 
 /*produit scalaire*/
 double scalaire(Vecteur v1, Vecteur v2);
@@ -46,6 +47,7 @@ double norme(Vecteur v1);
 /*distance entre 2 points*/
 double distance_point(Point p1, Point p2);
 
+/*distance entre un point p et un segment [a,b]*/
 double distance_segment(Point a, Point b, Point p);
 
 /* calcul du point C(t) d'une Bézier de degré 2, pour une valeur de t (entre 0 et 1) */
@@ -60,6 +62,7 @@ Bezier3 conversion_bezier2_vers_3(Bezier2 B);
 /* distance entre une courbe de bezier2 et un point */
 double distance_bezier2(Point p, Bezier2 B, double ti);
 
+/* distance entre une courbe de bezier3 et un point */
 double distance_bezier3(Point p, Bezier3 B, double ti);
 
 #endif

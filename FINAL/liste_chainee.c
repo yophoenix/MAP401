@@ -20,6 +20,35 @@ Cellule_Liste_Point *creer_element_liste_Point(Point v)
 	return el;
 }
 
+Contour supp_first_element_liste_Point(Contour c)
+{
+	if (c.first == NULL)
+	{
+		printf("impossible de supprimer l'element, le contour est vide");
+		return c;
+	}
+	Cellule_Liste_Point *first = c.first;
+	Cellule_Liste_Point *second = first->suiv;
+	c.first = second;
+	c.taille -= 1;
+	free(first);
+	return c;
+}
+
+Cellule_Liste_Contour *creer_element_liste_Contour(Contour c)
+{
+	Cellule_Liste_Contour *co;
+	co = (Cellule_Liste_Contour *)malloc(sizeof(Cellule_Liste_Contour));
+	if (co == NULL)
+	{
+		fprintf(stderr, "creer_element_liste_Contour : allocation impossible\n");
+		exit(-1);
+	}
+	co->data = c;
+	co->suiv = NULL;
+	return co;
+}
+
 Cellule_Liste_Bezier2 *creer_element_liste_Bezier2(Bezier2 b){
 	Cellule_Liste_Bezier2 *el;
 	el = (Cellule_Liste_Bezier2 *)malloc(sizeof(Cellule_Liste_Bezier2));
@@ -75,34 +104,6 @@ Cellule_Liste_Contour_Bezier3 *creer_element_liste_Contour_Bezier3(Liste_Bezier3
 	return el;
 }
 
-Contour supp_first_element_liste_Point(Contour c)
-{
-	if (c.first == NULL)
-	{
-		printf("impossible de supprimer l'element, le contour est vide");
-		return c;
-	}
-	Cellule_Liste_Point *first = c.first;
-	Cellule_Liste_Point *second = first->suiv;
-	c.first = second;
-	c.taille -= 1;
-	free(first);
-	return c;
-}
-
-Cellule_Liste_Contour *creer_element_liste_Contour(Contour c)
-{
-	Cellule_Liste_Contour *co;
-	co = (Cellule_Liste_Contour *)malloc(sizeof(Cellule_Liste_Contour));
-	if (co==NULL)
-	{
-		fprintf(stderr, "creer_element_liste_Contour : allocation impossible\n");
-		exit(-1);
-	}
-	co->data = c;
-	co->suiv = NULL;
-	return co;
-}
 
 
 /* créer une liste vide */

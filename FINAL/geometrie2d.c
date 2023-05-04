@@ -24,14 +24,15 @@ Vecteur addition_vect(Vecteur v1, Vecteur v2){
     return v;
 }
 
+Point multiply_point(Point p1, double a)
+{
+    Point p = {p1.x * a, p1.y * a};
+    return p;
+}
+
 Vecteur multiply_vect(Vecteur v1, double a){
     Vecteur v = {v1.x * a, v1.y * a};
     return v;
-}
-
-Point multiply_point(Point p1, double a){
-    Point p = {p1.x * a, p1.y * a};
-    return p;
 }
 
 double scalaire(Vecteur v1, Vecteur v2){

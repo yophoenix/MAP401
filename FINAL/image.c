@@ -228,7 +228,7 @@ Image lire_fichier_image(char *nom_f)
 	return I;
 }
 
-/* ecrire l'image I � l'ecran */
+/* ecrire l'image I a l'ecran */
 void ecrire_image(Image I)
 {
 	for (UINT h=1 ; h <= hauteur_image(I) ; h++){
