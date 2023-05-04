@@ -11,31 +11,37 @@
 void modifier_extension(char *nom_fichier, char *nom, char *extension, char *type, char *d)
 {
 	strcpy(nom_fichier, nom);
-	nom_fichier[strlen(nom) - 4] = '\0';
-	if (strcmp(type, "") != 0)
+	nom_fichier[strlen(nom) - 4] = '\0'; //suppression de l'extension
+	if (strcmp(type, "") != 0)		//si type n'est pas vide
 	{
 		strcat(nom_fichier, "_");
-		strcat(nom_fichier, type);
+		strcat(nom_fichier, type); //ajout du type (segment/bezier2/bezier3 ou fill/stroke)
 	}
-	if (strcmp(d, "") != 0)
+	if (strcmp(d, "") != 0)		//si d n'est pas vide
 	{
 		strcat(nom_fichier, "_");
 		strcat(nom_fichier, d);
 	}
-	strcat(nom_fichier, extension);
+	strcat(nom_fichier, extension);	//ajout de la nouvelle extension
 }
 
-Point trouve_pixel_init(Image I, Point pixel)
+/*
+	________________________________________________________________
+	   Extraction de contours
+	_______________________________________________________________
+*/
+Point trouve_pixel_init(Image I, Point pixel) 
 {
 	UINT h = pixel.y;
 	UINT l = pixel.x;
 	UINT L = largeur_image(I);
 	UINT H = hauteur_image(I);
-	Point pixel_init = {0, 0};
-	while (h <= H)
+	Point pixel_init = {0, 0};//initialisation du pixel initial, (0,0) représente un point en dehors de l'image
+	while (h <= H) //parcours de l'image à partir du dernier pixel initial donné en entrée
 	{
 		while (l <= L)
 		{
+			//condition pour trouver un pixel initial
 			if (get_pixel_image(I, l, h) && !get_pixel_image(I, l, h - 1))
 			{
 				pixel_init.x = l;
@@ -58,6 +64,7 @@ Point trouve_pixel_init(Image I, Point pixel)
 
 Point avancer(Point p, Orientation orient)
 {
+	//avancée du robot en fonction de son orientation
 	switch (orient)
 	{
 	case Nord:
@@ -78,6 +85,7 @@ Point avancer(Point p, Orientation orient)
 
 Orientation nouvelle_orientation(Image I, Point position, Orientation orient)
 {
+	//détermination de la nouvelle orientation du robot en fonction de sa situation sur l'image
 	Pixel pD;
 	Pixel pG;
 	switch (orient)
@@ -140,6 +148,7 @@ Image init_masque(Image I)
 	UINT H = hauteur_image(I);
 	Image M = creer_image(L, H);
 	UINT nb_pixel_init = 0;
+	//parcours de l'image pour trouver les pixels initiaux de contour et les mettre sur le masque
 	for (UINT h = 1; h <= H; h++)
 	{
 		for (UINT l = 1; l <= L; l++)
@@ -190,6 +199,7 @@ Liste_Contour extraire_les_contours(Image I)
 	Image M = init_masque(I);
 	Point pixel_init = {0, 0};
 	pixel_init = trouve_pixel_init(M, pixel_init);
+	//extraction de chacun des contours et ajout dans la liste de contour
 	while (pixel_init.x != 0)
 	{
 		Contour c = recupere_contour(I, M, pixel_init);
@@ -199,11 +209,18 @@ Liste_Contour extraire_les_contours(Image I)
 	return liste;
 }
 
+/*
+	________________________________________________________________
+	   Simplification des contours
+	_______________________________________________________________
+*/
 Contour simplification_contour(Tableau_Point tabcontour, UINT j1, UINT j2, double dist)
-{
+{	
+	//algorithme de Douglas-Peucker
 	Liste_Point L = creer_liste_Point_vide();
 	double dmax = 0;
 	UINT k = j1;
+	//calcul du point le plus éloigné du segment [j1,j2]
 	for (int j = j1 + 1; j < j2; j++)
 	{
 		double dj = distance_segment(tabcontour.tab[j1], tabcontour.tab[j2], tabcontour.tab[j]);
@@ -222,12 +239,15 @@ Contour simplification_contour(Tableau_Point tabcontour, UINT j1, UINT j2, doubl
 	{
 		Contour L1 = simplification_contour(tabcontour, j1, k, dist);
 		Contour L2 = simplification_contour(tabcontour, k, j2, dist);
-		L2 = supp_first_element_liste_Point(L2);
+		// afin de ne pas avoir de doublon sachant que le dernier element de L1 est le premier de L2
+		// on supprime le premier element de L2
+		L2 = supp_first_element_liste_Point(L2); 
 		L = concatener_liste_Point(L1, L2);
 	}
 	return L;
 }
 
+//fonction qui simplifie tous les contours d'une liste de contours
 Liste_Contour simplification_contours(Liste_Contour L, double dist)
 {
 	if (L.first == NULL)
@@ -237,6 +257,7 @@ Liste_Contour simplification_contours(Liste_Contour L, double dist)
 	}
 	Cellule_Liste_Contour *celcontour = L.first;
 	Liste_Contour LC = creer_liste_Contour_vide();
+	//pour chaque contour de la liste, on le convertit en tableau de points puis le simplifie et enfin on l'ajoute dans la liste de contour simplifié
 	for (int i = 0; i < L.taille; i++)
 	{
 		Tableau_Point tabcontour = sequence_points_liste_vers_tableau(celcontour->data);
@@ -263,8 +284,9 @@ Bezier2 approx_bezier2(Tableau_Point tab_contour, UINT j1, UINT j2)
 	{
 		if (n >= 2)
 		{
-			float a = (float)((3 * n) / (n * n - 1));
-			float b = (float)((1 - 2 * n) / (2 * (n + 1)));
+			float a = (float)((3 * n) / (n * n - 1)); //calcul de alpha
+			float b = (float)((1 - 2 * n) / (2 * (n + 1))); //calcul de beta
+			//calcul de la somme des xi et yi
 			float sommex = 0;
 			float sommey = 0;
 			for (int i = 1; i <= n - 1; i++)
@@ -272,6 +294,7 @@ Bezier2 approx_bezier2(Tableau_Point tab_contour, UINT j1, UINT j2)
 				sommex = sommex + tab_contour.tab[j1 + i].x;
 				sommey = sommey + tab_contour.tab[j1 + i].y;
 			}
+			//calcul des points de controle C1 et C2
 			B.C1.x = a * sommex + b * (tab_contour.tab[j1].x + tab_contour.tab[j2].x);
 			B.C1.y = a * sommey + b * (tab_contour.tab[j1].y + tab_contour.tab[j2].y);
 		}
@@ -279,6 +302,7 @@ Bezier2 approx_bezier2(Tableau_Point tab_contour, UINT j1, UINT j2)
 	return B;
 }
 
+//fonctionnement similaire à simplification_contour mais avec des courbes de bezier2
 Liste_Bezier2 simplification_contour_bezier2(Tableau_Point tabcontour, UINT j1, UINT j2, double dist)
 {
 	UINT n = j2 - j1;
@@ -310,6 +334,7 @@ Liste_Bezier2 simplification_contour_bezier2(Tableau_Point tabcontour, UINT j1, 
 	return L;
 }
 
+//fonctionnement similaire à simplification_contours mais avec des courbes de bezier2
 Liste_Contour_Bezier2 simplification_contours_bezier2(Liste_Contour L, double dist)
 {
 	Liste_Contour_Bezier2 LC = creer_liste_Contour_Bezier2_vide();
@@ -330,13 +355,14 @@ Liste_Contour_Bezier2 simplification_contours_bezier2(Liste_Contour L, double di
 	return LC;
 }
 
+//fonction interne d'approx_bezier3 y(i,n)
 double y_approx(int i, float n)
 {
 	float k = (float)i;
 	double res = 6 * pow(k, 4) - 8 * n * pow(k, 3) + 6 * pow(k, 2) - 4 * n * k + pow(n, 4) - pow(n, 2);
 	return res;
 }
-
+//fonction similaire à approx_bezier2 mais avec des courbes de bezier3
 Bezier3 approx_bezier3(Tableau_Point tab_contour, UINT j1, UINT j2)
 {
 	Bezier3 B;
@@ -351,9 +377,10 @@ Bezier3 approx_bezier3(Tableau_Point tab_contour, UINT j1, UINT j2)
 		B.C2 = B3.C2;
 		return B;
 	}
-	double a = (-15 * pow(n, 3) + 5 * pow(n, 2) + 2 * n + 4) / (3 * (n + 2) * (3 * pow(n, 2) + 1));
-	double b = (10 * pow(n, 3) - 15 * pow(n, 2) + n + 2) / (3 * (n + 2) * (3 * pow(n, 2) + 1));
-	double l = (70 * n) / (3 * (pow(n, 2) - 1) * (pow(n, 2) - 4) * (3 * pow(n, 2) + 1));
+	double a = (-15 * pow(n, 3) + 5 * pow(n, 2) + 2 * n + 4) / (3 * (n + 2) * (3 * pow(n, 2) + 1)); //calcul de alpha
+	double b = (10 * pow(n, 3) - 15 * pow(n, 2) + n + 2) / (3 * (n + 2) * (3 * pow(n, 2) + 1));//calcul de beta
+	double l = (70 * n) / (3 * (pow(n, 2) - 1) * (pow(n, 2) - 4) * (3 * pow(n, 2) + 1));//calcul de lambda
+	//calcul de la somme dans les formules de calcul de C1 et C2
 	double sommex1 = 0;
 	double sommey1 = 0;
 	double sommex2 = 0;
@@ -367,6 +394,7 @@ Bezier3 approx_bezier3(Tableau_Point tab_contour, UINT j1, UINT j2)
 		sommex2 = sommex2 + y * tab_contour.tab[j1 + i].x;
 		sommey2 = sommey2 + y * tab_contour.tab[j1 + i].y;
 	}
+	//calcul de C1 et C2
 	B.C1.x = a * tab_contour.tab[j1].x + l * sommex1 + b * tab_contour.tab[j2].x;
 	B.C1.y = a * tab_contour.tab[j1].y + l * sommey1 + b * tab_contour.tab[j2].y;
 	B.C2.x = b * tab_contour.tab[j1].x + l * sommex2 + a * tab_contour.tab[j2].x;
@@ -374,8 +402,7 @@ Bezier3 approx_bezier3(Tableau_Point tab_contour, UINT j1, UINT j2)
 	return B;
 }
 
-
-
+//fonction similaire à simplification_contour mais avec des courbes de bezier3
 Liste_Bezier3 simplification_contour_bezier3(Tableau_Point tabcontour, UINT j1, UINT j2, double dist)
 {
 	UINT n = j2 - j1;
@@ -407,6 +434,7 @@ Liste_Bezier3 simplification_contour_bezier3(Tableau_Point tabcontour, UINT j1, 
 	return L;
 }
 
+//fonction similaire à simplification_contours mais avec des courbes de bezier3
 Liste_Contour_Bezier3 simplification_contours_bezier3(Liste_Contour L, double dist)
 {
 	Liste_Contour_Bezier3 LC = creer_liste_Contour_Bezier3_vide();
@@ -427,6 +455,11 @@ Liste_Contour_Bezier3 simplification_contours_bezier3(Liste_Contour L, double di
 	return LC;
 }
 
+/*
+	________________________________________________________________
+	   Affichage des informations
+	_______________________________________________________________
+*/
 void afficher_position(Point position)
 {
 	printf("Un point du contour est (%lf;%lf)\n", position.x, position.y);
@@ -440,6 +473,7 @@ void affiche_liste_contour(Liste_Contour liste)
 {
 	UINT l = 0;
 	Cellule_Liste_Contour *cel = liste.first;
+	//Calcul du nombre de points
 	while (cel != NULL)
 	{
 		l += cel->data.taille;
@@ -454,6 +488,7 @@ void affiche_liste_contour(Liste_Contour liste)
 void affiche_liste_Bezier2(Liste_Contour_Bezier2 liste){
 	UINT l = 0;
 	Cellule_Liste_Contour_Bezier2 *cel = liste.first;
+	//Calcul du nombre de courbes
 	while (cel != NULL){
 		l += cel->data.taille;
 		cel = cel->suiv;
@@ -465,6 +500,7 @@ void affiche_liste_Bezier3(Liste_Contour_Bezier3 liste)
 {
 	UINT l = 0;
 	Cellule_Liste_Contour_Bezier3 *cel = liste.first;
+	//calcul du nombre de courbes
 	while (cel != NULL)
 	{
 		l += cel->data.taille;
@@ -473,6 +509,11 @@ void affiche_liste_Bezier3(Liste_Contour_Bezier3 liste)
 	printf("Il y'a %d courbes\n", l);
 }
 
+/*
+	________________________________________________________________
+	   Ecriture de contour dans un fichier de sortie
+	_______________________________________________________________
+*/
 /* écrire le contour L dans un fichier */
 void ecrire_contour_fichier(Contour L, FILE *f)
 {
@@ -490,6 +531,7 @@ void ecrire_contour_fichier(Contour L, FILE *f)
 	free(TP.tab); /* supprimer le tableau de point TP */
 }
 
+//ecriture d'une liste de contour dans un fichier texte
 void ecrire_liste_contours(Liste_Contour L, char *nom_fichier)
 {
 	FILE *f = fopen(nom_fichier, "w");
@@ -506,6 +548,7 @@ void ecrire_liste_contours(Liste_Contour L, char *nom_fichier)
 
 void ecrire_contour_eps(Contour L, char *nom_fichier, Image I, int fill)
 {
+	//ecriture du contour dans un fichier eps
 	FILE *f = fopen(nom_fichier, "w");
 
 	UINT l = largeur_image(I);
@@ -537,6 +580,7 @@ void ecrire_contour_eps(Contour L, char *nom_fichier, Image I, int fill)
 
 void ecrire_image_eps(Liste_Contour L, char *nom_fichier, UINT h, UINT l)
 {
+	//ecriture des contours dans un fichier eps
 	FILE *f = fopen(nom_fichier, "w");
 
 	fprintf(f, "%%!PS-Adobe-3.0 EPSF-3.0\n%%%%BoundingBox: 0 0 %d %d\n\n", l, h);
@@ -575,7 +619,7 @@ void ecrire_image_eps_bezier2(Liste_Contour_Bezier2 L, char *nom_fichier, UINT h
 		if (cel!=NULL){
 			fprintf(f, "%.0f %.0f moveto ", cel->data.C0.x, h - cel->data.C0.y);
 			while (cel!=NULL){
-				Bezier3 B3 = conversion_bezier2_vers_3(cel->data);
+				Bezier3 B3 = conversion_bezier2_vers_3(cel->data); //le format eps ne prend que des courbes de bézier de degré 3
 				fprintf(f, "%.0f %.0f %.0f %.0f %.0f %.0f %.0f %.0f curveto \n", 
 				B3.C0.x, h - B3.C0.y, B3.C1.x, h - B3.C1.y, B3.C2.x, h - B3.C2.y, B3.C3.x, h - B3.C3.y);
 				cel = cel->suiv;
