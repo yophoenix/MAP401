@@ -7,11 +7,47 @@
 
 typedef enum {Nord, Est, Sud, Ouest} Orientation;
 
-Contour recupere_contour(Image I, Image M, Point pixel_init);
+void modifier_extension(char *nom_fichier, char *nom, char *extension, char *type, char *d);
 
-void afficher_position(Point position);
+Point trouve_pixel_init(Image I, Point pixel);
+
+Point avancer(Point p, Orientation orient);
+
+Orientation nouvelle_orientation(Image I, Point position, Orientation orient);
+
+Orientation tourner_a_gauche(Orientation orient);
+
+Orientation tourner_a_droite(Orientation orient);
+
+void memoriser_position(Liste_Point *liste, Point p);
 
 void calcul_contour(Image I, Point pixel_init);
+
+Image init_masque(Image M);
+
+Contour recupere_contour(Image I, Image M, Point pixel_init);
+
+Liste_Contour extraire_les_contours(Image I);
+
+Contour simplification_contour(Tableau_Point tabcontour, UINT j1, UINT j2, double dist);
+
+Liste_Contour simplification_contours(Liste_Contour L, double dist);
+
+Bezier2 approx_bezier2(Tableau_Point tab_contour, UINT j1, UINT j2);
+
+Liste_Bezier2 simplification_contour_bezier2(Tableau_Point tabcontour, UINT j1, UINT j2, double dist);
+
+Liste_Contour_Bezier2 simplification_contours_bezier2(Liste_Contour L, double dist);
+
+double y_approx(int i, float n);
+
+Bezier3 approx_bezier3(Tableau_Point tab_contour, UINT j1, UINT j2);
+
+Liste_Bezier3 simplification_contour_bezier3(Tableau_Point tabcontour, UINT j1, UINT j2, double dist);
+
+Liste_Contour_Bezier3 simplification_contours_bezier3(Liste_Contour L, double dist);
+
+void afficher_position(Point position);
 
 void affiche_contour(Contour liste);
 
@@ -20,18 +56,6 @@ void affiche_liste_contour(Liste_Contour liste);
 void affiche_liste_Bezier2(Liste_Contour_Bezier2 liste);
 
 void affiche_liste_Bezier3(Liste_Contour_Bezier3 liste);
-
-Point trouve_pixel_init(Image I, Point pixel);
-
-void memoriser_position(Liste_Point *liste, Point p);
-
-Point avancer(Point p, Orientation orient);
-
-Orientation nouvelle_orientation (Image I, Point position, Orientation orient);
-
-Orientation tourner_a_gauche(Orientation orient);
-
-Orientation tourner_a_droite(Orientation orient);
 
 void ecrire_contour_fichier(Contour L,FILE * f);
 
@@ -45,28 +69,6 @@ void ecrire_image_eps_bezier2(Liste_Contour_Bezier2 L, char *nom_fichier, UINT h
 
 void ecrire_image_eps_bezier3(Liste_Contour_Bezier3 L, char *nom_fichier, UINT h, UINT l);
 
-void modifier_extension(char *nom_fichier, char *nom, char *extension, char *type, char *d);
 
-Image init_masque(Image M);
-
-Liste_Contour extraire_les_contours(Image I);
-
-Contour simplification_contour(Tableau_Point tabcontour, UINT j1, UINT j2, double dist);
-
-Liste_Contour simplification_contours(Liste_Contour L, double dist);
-
-Bezier2 approx_bezier2(Tableau_Point tab_contour, UINT j1, UINT j2);
-
-double y_approx(int i, float n);
-
-Bezier3 approx_bezier3(Tableau_Point tab_contour, UINT j1, UINT j2);
-
-Liste_Bezier2 simplification_contour_bezier2(Tableau_Point tabcontour, UINT j1, UINT j2, double dist);
-
-Liste_Contour_Bezier2 simplification_contours_bezier2(Liste_Contour L, double dist);
-
-Liste_Bezier3 simplification_contour_bezier3(Tableau_Point tabcontour, UINT j1, UINT j2, double dist);
-
-Liste_Contour_Bezier3 simplification_contours_bezier3(Liste_Contour L, double dist);
 
 #endif
