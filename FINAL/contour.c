@@ -218,6 +218,7 @@ void ecrire_liste_contours(Liste_Contour L, char *nom_fichier)
 		ecrire_contour_fichier(liste->data, f);
 		liste = liste->suiv;
 	}
+	fclose(f);
 }
 
 void ecrire_contour_eps(Contour L, char *nom_fichier, Image I, int fill)
@@ -332,18 +333,19 @@ void ecrire_image_eps_bezier3(Liste_Contour_Bezier3 L, char *nom_fichier, UINT h
 
 void modifier_extension(char *nom_fichier, char *nom, char *extension, char *type, char *d)
 {
-	strcat(nom_fichier, nom);
+	strcpy(nom_fichier, nom);
 	nom_fichier[strlen(nom) - 4] = '\0';
-	if (strcmp(type, "") != 0){
+	if(strcmp(type,"")!=0){
 		strcat(nom_fichier, "_");
 		strcat(nom_fichier, type);
 	}
-	if (strcmp(d, "") != 0){
+	if(strcmp(d,"")!=0){
 		strcat(nom_fichier, "_");
 		strcat(nom_fichier, d);
 	}
 	strcat(nom_fichier, extension);
 }
+
 
 Image init_masque(Image I)
 {
