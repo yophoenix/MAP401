@@ -1,0 +1,35 @@
+Extraction de contour(s) à partir d'une image PBM :
+
+On récupère l'image contenue dans le fichier PBM ainsi que sa hauteur et sa largeur, puis on fait appel à la fonction extraire_les_contours.
+
+La fonction extraire_les_contours prend en paramètre une image I, puis crée une liste de contours vide.
+Elle crée ensuite l'image masque nécessaire pour repérer les pixels initiaux pour chaque contour.
+Puis elle parcourt l'image masque et récupère le premier pixel initial d'un contour qu'elle trouve, et commence à récupérer tous les pixels du contour sur l'image I jusqu'à retomber sur le pixel initial.
+Tous ces points sont stockés dans une première liste de points qui forment le premier contour, lui même stocké dans la liste de contours.
+Entre-temps, si des pixels de l'image parcourue sont aussi de potentiels pixels initiaux sur l'image masque, ils sont supprimés de l'image masque.
+Et rebelote jusqu'à ce qu'il n'y ait plus de pixels sur l'image masque.
+
+Tests:
+ - Asterix3.pbm
+ - lettre-L-cursive.pbm
+ - image_poly_tache6.pbm
+
+ Simplification de contour(s)
+
+On récupère l'image et ses infos ainsi que les contours de l'image comme avant, puis on simplifie selon la technique de simplification voulue : par segment, Bézier 2 ou Bézier 3.
+{Là faudra mettre plus}
+Enfin, on crée un nouveau fichier avec la liste de contours simplifiés dans le format EPS qui porte le même nom, plus le type se simplification utilisé et la distance-seuil.
+
+Tests:
+ o Fichiers:
+ - Asterix3.pbm			\
+ - lettre-L-cursive.pbm	 } à voir si on fait tout pcq c'est un peu long peut être qu'une seule image suffit
+ - ColombesDeLaPaix.pbm	/
+ o Types de simplification :
+ - Par segment
+ - Bézier 2
+ - Bézier 3
+ o Distances-seuil :
+ - 0
+ - 2
+ - 8

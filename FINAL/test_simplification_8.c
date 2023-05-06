@@ -20,7 +20,7 @@ int main(int argc, char **argv)
 	Liste_Contour L = extraire_les_contours(I);
 
 	Liste_Contour LC = simplification_contours(L, dist);
-	printf("image simplifiée:\n");
+	printf("Image simplifiée:\n");
 	affiche_liste_contour(LC);
 	char nom_fichier[strlen(argv[1])+30];
 

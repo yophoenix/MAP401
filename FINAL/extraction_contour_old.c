@@ -10,11 +10,13 @@ int main(int argc, char **argv)
         return 1;
     }
     Image I = lire_fichier_image(argv[1]);
+    printf("nom du fichier: %s\n", argv[1]);
     UINT h = hauteur_image(I);
     UINT l = largeur_image(I);
-    printf("Hauteur image: %u\n", h);
-    printf("Largeur image: %u\n", l);
+    printf("hauteur image: %u\n", h);
+    printf("largeur image: %u\n", l);
 
     Liste_Contour L = extraire_les_contours(I);
+	printf("Il y a %d contours\n",L.taille);
 	affiche_liste_contour(L);
 }
