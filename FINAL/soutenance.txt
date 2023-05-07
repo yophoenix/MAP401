@@ -3,7 +3,7 @@ Extraction de contour(s) à partir d'une image PBM :
 On récupère l'image contenue dans le fichier PBM ainsi que sa hauteur et sa largeur, puis on fait appel à la fonction extraire_les_contours.
 
 La fonction extraire_les_contours prend en paramètre une image I, puis crée une liste de contours vide.
-Elle crée ensuite l'image masque nécessaire pour repérer les pixels initiaux pour chaque contour.
+Elle crée ensuite l'image masque //nécessaire pour repérer les pixels initiaux pour chaque contour\\.
 Puis elle parcourt l'image masque et récupère le premier pixel initial d'un contour qu'elle trouve, et commence à récupérer tous les pixels du contour sur l'image I jusqu'à retomber sur le pixel initial.
 Tous ces points sont stockés dans une première liste de points qui forment le premier contour, lui même stocké dans la liste de contours.
 Entre-temps, si des pixels de l'image parcourue sont aussi de potentiels pixels initiaux sur l'image masque, ils sont supprimés de l'image masque.

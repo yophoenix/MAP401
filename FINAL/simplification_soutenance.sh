@@ -1,3 +1,5 @@
+#!/bin/bash
+
 vertclair='\e[1;32m'
 jaune='\e[1;33m'
 rougefonce='\e[0;31m'
@@ -14,10 +16,10 @@ for img in "Asterix3" "lettre-L-cursive" "ColombesDeLaPaix"; do
 			echo "distance-seuil : ${jaune}$d${neutre}"
 			./test_${fich}_8 ../IMAGES_TESTS/$img.pbm $d
 			echo "[${vertclair}OK${neutre}]"
-			read attendre
+			read -p "Appuyez sur une touche pour continuer..."
 			echo "Affichage de $img.eps"
 			gv ../IMAGES_TESTS/${img}_${fich}_$d.eps &
-			read attendre
+			read -p "Appuyez sur une touche pour continuer..."
 		done
 	done
 done
