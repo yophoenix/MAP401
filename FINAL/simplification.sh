@@ -1,3 +1,5 @@
+#!/bin/bash 
+
 vertclair='\e[1;32m'
 jaune='\e[1;33m'
 rougefonce='\e[0;31m'
