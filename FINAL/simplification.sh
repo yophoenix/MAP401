@@ -1,4 +1,4 @@
-#!/bin/bash 
+#!/bin/sh 
 
 vertclair='\e[1;32m'
 jaune='\e[1;33m'
