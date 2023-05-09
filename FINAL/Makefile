@@ -37,7 +37,7 @@ INCLUDEOPTS = -I$(INCDIR)
 COMPILOPTS = -g -Wall $(INCLUDEOPTS)
 
 # liste des executables
-EXECUTABLES = test_image_1 test_geometrie2d_2 test_contour_robot_3-1 test_contour_txt_3-2 test_contour_eps_4 test_contours_5-1 test_contours_eps_5-2 test_point_segment_6-1 test_segment_6-2 test_geometrie_bezier_7-0 test_approx_bezier2_7-1 test_bezier2_7-1 test_approx_bezier3_7-2 test_bezier3_7-2 extraction_contour_8 test_simplification_8 test_bezier2_8 test_bezier3_8
+EXECUTABLES = test_image_1 test_geometrie2d_2 test_contour_robot_3-1 test_contour_txt_3-2 test_contour_eps_4 test_contours_5-1 test_contours_eps_5-2 test_point_segment_6-1 test_segment_6-2 test_geometrie_bezier_7-0 test_approx_bezier2_7-1 test_bezier2_7-1 test_approx_bezier3_7-2 test_bezier3_7-2 extraction_contour_8 test_segment_8 test_bezier2_8 test_bezier3_8
 
 
 
@@ -204,10 +204,10 @@ test_bezier3_8.o : test_bezier3_8.c geometrie2d.h image.h contour.h liste_chaine
 	@echo "---------------------------------------------"
 	$(CC) -c $(COMPILOPTS) $<
 
-test_simplification_8.o : test_simplification_8.c image.h contour.h liste_chainee.h types_macros.h geometrie2d.h
+test_segment_8.o : test_segment_8.c image.h contour.h liste_chainee.h types_macros.h geometrie2d.h
 	@echo ""
 	@echo "---------------------------------------------"
-	@echo "Compilation du module test_simplification_8"
+	@echo "Compilation du module test_segment_8"
 	@echo "---------------------------------------------"
 	$(CC) -c $(COMPILOPTS) $<
 
@@ -333,7 +333,7 @@ test_bezier3_8 : test_bezier3_8.o geometrie2d.o contour.o image.o liste_chainee.
 	@echo "---------------------------------------------"
 	$(CC) $^ $(LDOPTS) -o $@
 
-test_simplification_8 : test_simplification_8.o geometrie2d.o contour.o image.o liste_chainee.o
+test_segment_8 : test_segment_8.o geometrie2d.o contour.o image.o liste_chainee.o
 	@echo ""
 	@echo "---------------------------------------------"
 	@echo "Creation de l'executable "$@

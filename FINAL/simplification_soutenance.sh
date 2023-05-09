@@ -8,11 +8,11 @@ neutre='\e[0;m'
 
 img="Asterix3"
 echo "Image traitée : ${rougefonce}$img${neutre}"
-./extraction_contour ../IMAGES_TESTS/$img.pbm
+./extraction_contour_8 ../IMAGES_TESTS/$img.pbm
 echo ""
 for fich in "segment" "bezier2" "bezier3"; do
 	echo "Execution de ${vertclair}test_${fich}_8${neutre}\n"
-	for d in 0 2 8; do
+	for d in 2 8 20; do
 		read -p "Appuyez sur une touche pour continuer..." attendre
 		echo "\ndistance-seuil : ${jaune}$d${neutre}"
 		./test_${fich}_8 ../IMAGES_TESTS/$img.pbm $d
