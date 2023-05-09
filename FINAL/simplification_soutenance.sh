@@ -20,7 +20,7 @@ for fich in "segment" "bezier2" "bezier3"; do
 		echo ""
 		read -p "Appuyez sur une touche pour continuer..." attendre
 		echo "\nAffichage de $img.eps\n"
-		gv ../IMAGES_TESTS/${img}_${fich}_$d.eps &
+		gv --presentation ../IMAGES_TESTS/${img}_${fich}_$d.eps &
 		sleep 1
 		echo ""
 	done
@@ -29,6 +29,7 @@ for fich in "segment" "bezier2" "bezier3"; do
 	then
 		echo ""
 		pkill gv
+		sleep 1
 		echo ""
 	fi
 done

@@ -1,4 +1,4 @@
-Extraction de contour(s) à partir d'une image PBM :
+ Extraction de contour(s) à partir d'une image PBM :
 
 On récupère l'image contenue dans le fichier PBM ainsi que sa hauteur et sa largeur, puis on fait appel à la fonction extraire_les_contours.
 

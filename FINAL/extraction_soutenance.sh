@@ -30,8 +30,16 @@ for img in "image_poly_tache6" "Asterix3"; do
 	echo ""
 # explication du fonctionnement des contours
 	read -p "Appuyez sur une touche pour afficher..." attendre
-	gv ../IMAGES_TESTS/${img}.eps &
+	gv --presentation ../IMAGES_TESTS/${img}.eps &
 	sleep 1
 	read -p "Appuyez sur une touche pour continuer..." attendre
 	echo ""
 done
+read -p "Voulez-vous fermer les 2 fenêtres GhostView ? (Y/y/N/n)" attendre
+if [ $attendre = "Y" ] || [ $attendre = "y" ]
+then
+	echo ""
+	pkill gv
+	sleep 1
+	echo ""
+fi
