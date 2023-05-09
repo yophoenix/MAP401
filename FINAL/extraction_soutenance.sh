@@ -9,6 +9,7 @@ neutre='\e[0;m'
 echo ""
 echo "Tests sur le parcours du \"robot\" de recuperation d'un contour"
 read -p "Appuyez sur une touche pour continuer..." attendre
+echo "Image traitée : ${rougefonce}im_test1.pbm${neutre}"
 echo ""
 ./test_contour_robot_3-1 ../IMAGES_TESTS/im_test1.pbm
 #ouvrir im_test1.pbm et explication du fonctionnement de la detection de contour
@@ -27,6 +28,7 @@ for img in "image_poly_tache6" "Asterix3"; do
 	./test_contours_eps_5-2 ../IMAGES_TESTS/$img.pbm
 	echo "[${vertclair}OK${neutre}]"
 	echo ""
+# explication du fonctionnement des contours
 	read -p "Appuyez sur une touche pour afficher..." attendre
 	gv ../IMAGES_TESTS/${img}.eps &
 	sleep 1

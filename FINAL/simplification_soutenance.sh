@@ -10,7 +10,7 @@ img="Asterix3"
 echo "Image traitée : ${rougefonce}$img${neutre}"
 ./extraction_contour ../IMAGES_TESTS/$img.pbm
 echo ""
-for fich in "simplification" "bezier2" "bezier3"; do
+for fich in "segment" "bezier2" "bezier3"; do
 	echo "Execution de ${vertclair}test_${fich}_8${neutre}\n"
 	for d in 0 2 8; do
 		read -p "Appuyez sur une touche pour continuer..." attendre
